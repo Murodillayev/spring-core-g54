@@ -1,9 +1,10 @@
-package uz.pdp;
+package uz.pdp.service;
 
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
+import uz.pdp.mapper.AuthMapper;
+import uz.pdp.validator.AuthValidator;
 
+@Component
 public class AuthService {
 
     //    @Autowired
