@@ -7,12 +7,14 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class AuthService {
 
     //    @Autowired
-    private AuthValidator validator; // DI
+    private AuthValidator validator;
+    private AuthMapper mapper;// DI
 
 
 //    @Autowired
-    public AuthService(AuthValidator validator) {
+    public AuthService(AuthValidator validator, AuthMapper mapper) {
         this.validator = validator;
+        this.mapper = mapper;
     }
 
     public void login(String username) {

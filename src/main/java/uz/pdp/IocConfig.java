@@ -9,7 +9,7 @@ public class IocConfig {
 
     @Bean
     public AuthService authService() {
-        return new AuthService(authValidator());
+        return new AuthService(authValidator(), authMapper());
     }
 
     @Bean
