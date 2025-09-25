@@ -1,0 +1,18 @@
+package uz.pdp.repository;
+
+import uz.pdp.model.dto.SaleItemDTO;
+import uz.pdp.model.entity.SaleItem;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface SaleItemRepository {
+
+    SaleItem save(SaleItem saleItem);
+
+    Optional<SaleItem> findById(String id);
+
+    List<SaleItemDTO> findAll();
+
+    void  delete(SaleItem saleItem);
+}
