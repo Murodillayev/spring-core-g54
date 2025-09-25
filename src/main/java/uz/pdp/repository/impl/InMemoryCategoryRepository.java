@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public class InMemoryCategoryRepository implements CategoryRepository {
 
-    private final List<Category> CATEGORIES = new ArrayList<>(List.of(
+    public static final List<Category> CATEGORIES = new ArrayList<>(List.of(
             new Category("Sirop"),
             new Category("Tabletka"),
             new Category("Svecha")
