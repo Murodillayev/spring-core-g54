@@ -34,7 +34,7 @@ public class MedicineService
     }
 
     @Override
-    public List<MedicineDTO> getAll() {
+    public List<MedicineDTO> getAll(String search) {
         return repository.findAll();
     }
 

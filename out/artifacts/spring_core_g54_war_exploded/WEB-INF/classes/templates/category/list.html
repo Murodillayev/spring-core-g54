@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokonlar</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/categories.css">
+</head>
+<body>
+<div th:replace="~{../fragments/navbar :: main-nav('category')}" class="navbar-custom"></div>
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div th:if="${param.error}" class="toast align-items-center text-bg-danger border-0 show" role="alert"
+         aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+        <div class="d-flex">
+            <div class="toast-body" th:text="${param.error}"></div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+    </div>
+
+    <div th:if="${param.success}" class="toast align-items-center text-bg-success border-0 show" role="alert"
+         aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+        <div class="d-flex">
+            <div class="toast-body" th:text="${param.success}"></div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-dark fw-bold mb-0">
+                Dorixona boshqaruvi
+            </h2>
+        </div>
+    </div>
+
+    <div class="search-section">
+        <div class="row align-items-center">
+            <div class="col-lg-8 col-md-7 mb-3 mb-md-0">
+                <form method="GET" action="/category" class="row g-2">
+                    <div class="col-md-8 col-sm-8">
+                        <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            <input type="text" class="form-control" name="search"
+                                   th:value="${param.search}"
+                                   placeholder="Dokon nomi yoki manzili bo'yicha qidirish...">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                        <button type="submit" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-search me-1"></i>
+                            Qidirish
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-4 col-md-5 text-md-end">
+                <a type="button" class="btn btn-success w-100 w-md-auto" th:href="@{/category/add}">
+                    <i class="fas fa-plus me-2"></i>
+                    Yaratish
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shops Table -->
+    <div class="card">
+        <div class="card-header bg-white py-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-list me-2 text-muted"></i>
+                        Categorylar ro'yxati
+                    </h5>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">
+                            Nomi
+                        </th>
+                        <th scope="col" class="text-center">Amallar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="category,st : ${categories}">
+                        <td class="fw-bold text-muted"
+                            th:text="${st.count}">
+                        </td>
+                        <td>
+                            <div class="fw-semibold" th:text="${category.name}"></div>
+                        </td>
+                        <td class="text-center shop-actions">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a type="button" class="btn btn-outline-info" th:href="@{/category/edit/{id}(id=${category.id})}">
+                                    <i class="fas fa-eye"></i>
+                                    <span class="d-none d-sm-inline ms-1">O'zgartirish</span>
+                                </a>
+
+                                <a type="button" class="btn btn-outline-danger" th:href="@{/category/delete/{id}(id=${category.id})}">
+                                    <i class="fas fa-trash"></i>
+                                    <span class="d-none d-sm-inline ms-1">O'chirish</span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(categories)}">
+                        <td colspan="5" class="text-center py-5 text-muted">
+                            <i class="fas fa-store fa-3x mb-3 text-muted"></i>
+                            <p class="mb-0">Hech qanday kategoriya topilmadi</p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -34,7 +34,7 @@ public class UserService extends AbstractService<
     }
 
     @Override
-    public List<UserDTO> getAll() {
+    public List<UserDTO> getAll(String search) {
         return users;
     }
 

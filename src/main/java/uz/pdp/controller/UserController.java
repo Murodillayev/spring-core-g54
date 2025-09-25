@@ -19,7 +19,7 @@ public class UserController {
     }
     @GetMapping
     public String UsersPage(Model model){
-        List<UserDTO> all = userService.getAll();
+        List<UserDTO> all = userService.getAll("");
         model.addAttribute("users",all);
         return "users";
 

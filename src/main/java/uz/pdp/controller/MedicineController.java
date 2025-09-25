@@ -20,8 +20,8 @@ public class MedicineController {
 
     @GetMapping
     public String medicines(Model model) {
-        List<MedicineDTO> all = service.getAll();
+        List<MedicineDTO> all = service.getAll("");
         model.addAttribute("medicines", all);
-        return "medicines";
+        return "medicine/medicines";
     }
 }

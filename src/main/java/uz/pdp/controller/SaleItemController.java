@@ -19,7 +19,7 @@ public class SaleItemController {
     }
     @GetMapping
     public String saleItemPage(Model model) {
-        List<SaleItemDTO> all = service.getAll();
+        List<SaleItemDTO> all = service.getAll("");
         model.addAttribute("saleItems", all);
         return "saleItems";
     }

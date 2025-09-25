@@ -2,14 +2,10 @@ package uz.pdp.service;
 
 import org.springframework.stereotype.Service;
 import uz.pdp.mapper.SaleItemMapper;
-import uz.pdp.mapper.SaleMapper;
-import uz.pdp.model.dto.SaleDTO;
 import uz.pdp.model.dto.SaleItemDTO;
 import uz.pdp.model.entity.SaleItem;
 import uz.pdp.repository.SaleItemRepository;
-import uz.pdp.repository.SaleRepository;
 import uz.pdp.validator.SaleItemValidator;
-import uz.pdp.validator.SaleValidator;
 
 import java.util.List;
 
@@ -41,7 +37,7 @@ public class SaleItemService extends AbstractService<
     }
 
     @Override
-    public List<SaleItemDTO> getAll() {
+    public List<SaleItemDTO> getAll(String search) {
         return repository.findAll();
     }
 
