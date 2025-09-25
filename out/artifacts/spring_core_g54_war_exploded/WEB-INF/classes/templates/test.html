@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="uz" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+<h1 th:utext="${htmlCode}"></h1>
+
+<h1 th:text="${'Muhammadkomil Murodillayev'}"></h1>
+<h1 th:text="${12+12}"></h1>
+<h1 th:if="${12!=12}">12 12 ga teng</h1>
+<h1 th:text="${null}"></h1>
+<h1 th:with="name = ${'Akmal'}">
+    <p th:text="${name}"></p>
+</h1>
+
+<h1 th:text="${12/3}"></h1>
+<h1 th:text="${12*2}"></h1>
+<h1 th:text="${12+1}"></h1>
+
+<h1 th:text="${username}?:'no user authenticated'"></h1>
+<h1 th:text="${username}?:_">no user authenticated</h1>
+<div th:with="name = ${'Akmal'}">
+    <h1 th:with="surname = ${'Bektoshov'}" th:text="${name + ' ' +  surname}"></h1>
+    <h1 th:with="surname = ${'Bektoshov'}" th:text="|${name} ${surname}|"></h1>
+</div>
+
+
+<button type="button" class="btn btn-" th:attrappend="class=${buttonType}">Dark</button>
+<button type="button" class="btn btn-" th:attrprepend="class=${buttonType}">Dark</button>
+
+<div th:switch="${role}">
+    <p th:case="'admin'">User is an administrator</p>
+    <p th:case="'manager'">User is a manager</p>
+    <p th:case="*">User is some other thing</p>
+</div>
+
+<!--<h1 th:text="'Hello  world'"></h1>-->
+
+
+<ul>
+    <li th:each="person : ${people}" th:object="${person}" th:text="*{name}"></li>
+</ul>
+<p>Test</p>
+</body>
+</html>
