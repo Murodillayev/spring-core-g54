@@ -1,4 +1,4 @@
-package uz.pdp;
+package uz.pdp.config;
 
 import org.jspecify.annotations.Nullable;
 import org.springframework.web.context.WebApplicationContext;
@@ -9,7 +9,6 @@ public class DispatcherServletInitializer extends AbstractDispatcherServletIniti
 
     @Override
     protected WebApplicationContext createServletApplicationContext() {
-
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.register(WebAppConfig.class);
         return context;
@@ -17,7 +16,9 @@ public class DispatcherServletInitializer extends AbstractDispatcherServletIniti
 
     @Override
     protected @Nullable WebApplicationContext createRootApplicationContext() {
-        return null;
+        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+        context.register(DatasourceConfig.class);
+        return context;
     }
 
     @Override

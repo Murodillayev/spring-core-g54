@@ -7,7 +7,6 @@ import org.springframework.web.servlet.ModelAndView;
 import uz.pdp.model.entity.Category;
 import uz.pdp.service.CategoryService;
 
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -35,8 +34,8 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute Dto dto) {
-        service.create(dto.getName());
+    public String add(@RequestParam(name = "name") String name) {
+        service.create(name);
         return "redirect:/category";
     }
 

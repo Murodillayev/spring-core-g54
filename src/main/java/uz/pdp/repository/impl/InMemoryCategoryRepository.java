@@ -1,5 +1,6 @@
 package uz.pdp.repository.impl;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import uz.pdp.model.entity.Category;
 import uz.pdp.repository.CategoryRepository;

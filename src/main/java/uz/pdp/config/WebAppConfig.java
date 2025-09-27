@@ -1,4 +1,4 @@
-package uz.pdp;
+package uz.pdp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

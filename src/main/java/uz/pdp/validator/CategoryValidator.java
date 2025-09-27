@@ -1,5 +1,6 @@
 package uz.pdp.validator;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import uz.pdp.model.entity.Category;
 import uz.pdp.repository.CategoryRepository;
@@ -9,7 +10,7 @@ public class CategoryValidator {
 
     private final CategoryRepository repository;
 
-    public CategoryValidator(CategoryRepository repository) {
+    public CategoryValidator(@Qualifier("named-jdbc") CategoryRepository repository) {
         this.repository = repository;
     }
 

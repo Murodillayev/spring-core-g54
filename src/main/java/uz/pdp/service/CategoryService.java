@@ -1,5 +1,6 @@
 package uz.pdp.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import uz.pdp.mapper.CategoryMapper;
 import uz.pdp.model.entity.Category;
@@ -16,7 +17,7 @@ public class CategoryService
         CategoryValidator>
         implements CrudService<Category, String, String, String> {
 
-    protected CategoryService(CategoryRepository repository, CategoryMapper mapper, CategoryValidator validator) {
+    protected CategoryService(@Qualifier("named-jdbc") CategoryRepository repository, CategoryMapper mapper, CategoryValidator validator) {
         super(repository, mapper, validator);
     }
 
