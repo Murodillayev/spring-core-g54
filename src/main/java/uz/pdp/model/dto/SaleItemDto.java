@@ -13,10 +13,8 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @NoArgsConstructor
-public class SaleItemDTO {
-    private Sale sale;
-    private Medicine medicine;
-    private Double price;
+public class SaleItemDto {
+    private String medicineId;
+    private Double unitPrice;
     private Integer quantity;
-    private LocalDateTime createdAt;
 }

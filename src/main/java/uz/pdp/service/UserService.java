@@ -4,20 +4,18 @@ import org.springframework.stereotype.Service;
 import uz.pdp.mapper.UserMapper;
 import uz.pdp.model.dto.UserDTO;
 import uz.pdp.model.entity.AuthUser;
-import uz.pdp.repository.UserRepository;
+import uz.pdp.repository.AuthUserRepository;
 import uz.pdp.validator.UserValidator;
 
 import java.util.List;
 
-import static uz.pdp.repository.impl.InMemoryUserRepository.users;
-
 @Service
 public class UserService extends AbstractService<
-        UserRepository,
+        AuthUserRepository,
         UserMapper,
         UserValidator> implements CrudService<UserDTO,UserDTO,UserDTO,String>{
 
-    protected UserService(UserRepository repository, UserMapper mapper, UserValidator validator) {
+    protected UserService(AuthUserRepository repository, UserMapper mapper, UserValidator validator) {
         super(repository, mapper, validator);
     }
 

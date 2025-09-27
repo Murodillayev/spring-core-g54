@@ -1,19 +1,16 @@
 package uz.pdp.repository.impl;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.validation.Validator;
-import uz.pdp.model.dto.UserDTO;
 import uz.pdp.model.entity.AuthUser;
 import uz.pdp.model.enums.AuthRole;
-import uz.pdp.repository.UserRepository;
+import uz.pdp.repository.AuthUserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public class InMemoryUserRepository implements UserRepository {
+public class InMemoryAuthUserRepository implements AuthUserRepository {
 
 
 

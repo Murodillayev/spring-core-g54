@@ -4,18 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import uz.pdp.model.entity.AuthUser;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-@AllArgsConstructor
-@Setter
 @Getter
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class SaleDTO {
-    private String id;
-    private Double totalPrice;
-    private IdNameDto cashier;
-    private LocalDateTime createdAt;
+public class SaleCreateDto {
     private List<SaleItemDto> items;
+    private String cashierId;
 }

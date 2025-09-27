@@ -1,84 +1,67 @@
-.navbar-custom {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 10px 0;
+.expired {
+    background-color: #fff5f5 !important;
+    border-left: 4px solid #dc3545;
 }
 
-.navbar-brand {
-    font-weight: bold;
-    font-size: 24px;
+.expiring-soon {
+    background-color: #fffbf0 !important;
+    border-left: 4px solid #ffc107;
 }
 
-body {
-    background-color: #f8f9fa;
+.cart-sidebar {
+    position: fixed;
+    right: -400px;
+    top: 0;
+    width: 400px;
+    height: 100vh;
+    background: white;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+    z-index: 1000;
+    overflow-y: auto;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1.5rem;
+.cart-sidebar.open {
+    right: 0;
 }
 
-h1 {
-    color: #2c3e50;
-    font-size: 2.25rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 2rem;
+.cart-toggle {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    z-index: 1001;
 }
 
-table {
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    border-collapse: collapse;
-    background-color: #ffffff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 999;
 }
 
-thead {
-    background-color: #3498db;
-    color: #ffffff;
+.overlay.show {
+    display: block;
 }
 
-th, td {
-    padding: 0.75rem 1rem;
-    text-align: left;
-    font-size: 0.95rem;
+.badge-counter {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #dc3545;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-th {
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-tbody tr {
-    border-bottom: 1px solid #e5e7eb;
-    transition: background-color 0.2s ease;
-}
-
-tbody tr:hover {
-    background-color: #f8fafc;
-}
-
-td {
-    color: #34495e;
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 1rem;
-    }
-
-    h1 {
-        font-size: 1.75rem;
-    }
-
-    th, td {
-        font-size: 0.85rem;
-        padding: 0.5rem;
-    }
-
-    table {
-        font-size: 0.9rem;
-    }
+.table tbody tr:hover {
+    background-color: #f8f9fa;
 }

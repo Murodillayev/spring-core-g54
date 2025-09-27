@@ -1,7 +1,5 @@
 package uz.pdp.repository;
 
-import org.springframework.stereotype.Repository;
-import uz.pdp.model.dto.MedicineDTO;
 import uz.pdp.model.entity.Medicine;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package uz.pdp.validator;
 
 import org.springframework.stereotype.Component;
-import uz.pdp.model.dto.SaleItemDTO;
+import uz.pdp.model.dto.SaleItemDto;
 import uz.pdp.model.entity.SaleItem;
 import uz.pdp.repository.SaleItemRepository;
 
@@ -13,13 +13,8 @@ public class SaleItemValidator {
         this.repository = repository;
     }
 
-    public void validateOnCreate(SaleItemDTO dto) {
-        if (dto.getSale() == null)
-            throw new RuntimeException("Sale id is required");
-        if (dto.getMedicine() == null)
-            throw new RuntimeException("Medicine id is required");
-        if (dto.getQuantity() == null || dto.getQuantity() <= 0)
-            throw new RuntimeException("Quantity must be greater than zero");
+    public void validateOnCreate(SaleItemDto dto) {
+
     }
 
     public SaleItem ExistAndGet(String id) {

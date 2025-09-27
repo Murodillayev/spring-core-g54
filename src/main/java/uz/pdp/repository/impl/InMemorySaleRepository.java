@@ -5,14 +5,12 @@ import uz.pdp.model.entity.Sale;
 import uz.pdp.repository.SaleRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static uz.pdp.repository.impl.InMemorySaleItemRepository.saleItems;
 import static uz.pdp.repository.impl.InMemorySaleItemRepository.sales;
-import static uz.pdp.repository.impl.InMemoryUserRepository.users;
+import static uz.pdp.repository.impl.InMemoryAuthUserRepository.users;
 
 @Repository
 public class InMemorySaleRepository implements SaleRepository {

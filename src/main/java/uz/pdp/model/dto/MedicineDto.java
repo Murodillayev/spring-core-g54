@@ -9,14 +9,15 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MedicineDTO {
+@ToString
+public class MedicineDto {
     private String id;
     private String name;
     private String barCode;
     private LocalDate issueDate;
     private LocalDate expiryDate;
     private String description;
-    private Category category;
+    private IdNameDto category;
     private Integer quantity;
     private Double price;
 }

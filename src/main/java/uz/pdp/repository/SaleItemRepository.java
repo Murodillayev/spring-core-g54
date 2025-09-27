@@ -1,6 +1,5 @@
 package uz.pdp.repository;
 
-import uz.pdp.model.dto.SaleItemDTO;
 import uz.pdp.model.entity.SaleItem;
 
 import java.util.List;

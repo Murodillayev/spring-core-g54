@@ -1,7 +1,6 @@
 package uz.pdp.repository.impl;
 
 import org.springframework.stereotype.Repository;
-import uz.pdp.model.dto.MedicineDTO;
 import uz.pdp.model.entity.Medicine;
 import uz.pdp.repository.MedicineRepository;
 

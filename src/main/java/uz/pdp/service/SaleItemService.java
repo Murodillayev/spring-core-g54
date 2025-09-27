@@ -2,20 +2,18 @@ package uz.pdp.service;
 
 import org.springframework.stereotype.Service;
 import uz.pdp.mapper.SaleItemMapper;
-import uz.pdp.model.dto.SaleItemDTO;
+import uz.pdp.model.dto.SaleItemDto;
 import uz.pdp.model.entity.SaleItem;
 import uz.pdp.repository.SaleItemRepository;
 import uz.pdp.validator.SaleItemValidator;
 
 import java.util.List;
 
-import static uz.pdp.repository.impl.InMemorySaleItemRepository.saleItems;
-
 @Service
 public class SaleItemService extends AbstractService<
         SaleItemRepository,
         SaleItemMapper,
-        SaleItemValidator> implements CrudService<SaleItemDTO,SaleItemDTO,SaleItemDTO,String> {
+        SaleItemValidator> implements CrudService<SaleItemDto, SaleItemDto, SaleItemDto,String> {
 
 
 
@@ -25,31 +23,23 @@ public class SaleItemService extends AbstractService<
     }
 
     @Override
-    public SaleItemDTO create(SaleItemDTO dto) {
-        validator.validateOnCreate(dto);
-        SaleItem saleItem = mapper.fromDto(dto);
-        return mapper.toDto(repository.save(saleItem));
+    public SaleItemDto create(SaleItemDto dto) {
+        return null;
     }
 
     @Override
-    public SaleItemDTO get(String id) {
-        return mapper.toDto(repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Sale item not found")
-        ));
+    public SaleItemDto get(String id) {
+       return null;
     }
 
     @Override
-    public List<SaleItemDTO> getAll(String search) {
-        return mapper.toDtoList(saleItems);
+    public List<SaleItemDto> getAll(String search) {
+        return null;
     }
 
     @Override
-    public SaleItemDTO update(SaleItemDTO dto, String id) {
-        SaleItem saleItem = validator.ExistAndGet(id);
-        saleItem.setMedicine(dto.getMedicine());
-        saleItem.setPrice(dto.getPrice());
-        saleItem.setQuantity(dto.getQuantity());
-        return mapper.toDto(repository.save(saleItem));
+    public SaleItemDto update(SaleItemDto dto, String id) {
+        return null;
     }
 
     @Override

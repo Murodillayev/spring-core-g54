@@ -1,8 +1,7 @@
 package uz.pdp.validator;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uz.pdp.model.dto.MedicineDTO;
+import uz.pdp.model.dto.MedicineDto;
 import uz.pdp.model.entity.Medicine;
 import uz.pdp.repository.MedicineRepository;
 
@@ -15,7 +14,7 @@ public class MedicineValidator {
         this.repository = repository;
     }
 
-    public void validateOnCreate(MedicineDTO dto) {
+    public void validateOnCreate(MedicineDto dto) {
         if (dto.getName() == null || dto.getName().isBlank()) {
             throw new IllegalArgumentException("Medicine name cannot be null or blank");
         }
@@ -27,6 +26,12 @@ public class MedicineValidator {
     public Medicine ExistAndGet(String id) {
         return repository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Medicine with id " + id + " does not exist")
+        );
+    }
+
+    public Medicine existAndGet(String medicineId) {
+        return repository.findById(medicineId).orElseThrow(
+                () -> new RuntimeException("Medicine with id " + medicineId + " does not exist")
         );
     }
 }

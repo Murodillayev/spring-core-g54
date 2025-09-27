@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sotish</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="~{../fragments/navbar :: main-nav('sale')}" class="navbar-custom"></div>
+
+<input id="barcodeInput" type="text" placeholder="Scan barcode" autofocus>
+<button id="submitBtn">Sotishni tasdiqlash</button>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nomi</th>
+        <th scope="col">Bar code</th>
+        <th scope="col">Soni</th>
+        <th scope="col">Narxi</th>
+        <th scope="col">Amallar</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="medicine : ${medicines}">
+        <tr>
+            <th th:text="${medicineStat.count}"></th>
+            <td th:text="${medicine.name}"></td>
+            <td th:text="${medicine.barCode}"></td>
+            <td th:text="${medicine.quantity}"></td>
+            <td th:text="${medicine.price}"></td>
+            <td>add</td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+
+
+<h3>Savat</h3>
+<ul id="cartList"></ul>
+
+<form id="checkoutForm" th:action="@{/sale}" method="post">
+    <input type="hidden" name="itemsJson" id="itemsJson">
+</form>
+
+<script th:inline="javascript">
+    const barcodeInput = document.getElementById('barcodeInput');
+    const cartList = document.getElementById('cartList');
+    const submitBtn = document.getElementById('submitBtn');
+    const itemsJsonInput = document.getElementById('itemsJson');
+    const checkoutForm = document.getElementById('checkoutForm');
+
+    let cartItems = [];
+
+    // Backenddan kelgan products ro'yxati (Thymeleaf orqali)
+    const medicines = [[${medicines}]]
+
+    // Barcode inputda Enter bosilganda
+    barcodeInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            const code = barcodeInput.value.trim();
+            barcodeInput.value = '';
+            if (code) addItemToCart(code);
+            e.preventDefault();
+        }
+    });
+
+    function addItemToCart(barcode) {
+        // products ro'yxatida barcode borligini tekshirish
+
+        console.log(barcode)
+
+        console.log(medicines)
+        const product = medicines.find(p => p.barCode === barcode);
+        if (!product) {
+            alert("Mahsulot topilmadi!");
+            return;
+        }
+
+        // Agar item avval qo‘shilgan bo‘lsa quantity++
+        const existing = cartItems.find(item => item.barcode === barcode);
+        if (existing) {
+            existing.quantity += 1;
+        } else {
+            cartItems.push({barcode: barcode, quantity: 1, name: product.name, price: product.price});
+        }
+        renderCart();
+    }
+
+    function renderCart() {
+        cartList.innerHTML = '';
+        cartItems.forEach(item => {
+            const li = document.createElement('li');
+            li.innerText = `${item.name} (Barcode: ${item.barcode}) × ${item.quantity} = ${item.quantity * item.price} so'm`;
+            cartList.appendChild(li);
+        });
+    }
+
+    submitBtn.addEventListener('click', function () {
+        itemsJsonInput.value = JSON.stringify(cartItems);
+        checkoutForm.submit();
+    });
+</script>
+</body>
+</html>
