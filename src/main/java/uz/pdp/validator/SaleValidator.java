@@ -3,6 +3,7 @@ package uz.pdp.validator;
 import org.springframework.stereotype.Component;
 import uz.pdp.model.dto.SaleDTO;
 import uz.pdp.model.entity.Sale;
+import uz.pdp.repository.SaleItemRepository;
 import uz.pdp.repository.SaleRepository;
 
 @Component
@@ -14,13 +15,14 @@ public class SaleValidator {
     }
 
     public void ExistOnCreate(SaleDTO dto) {
-        if (dto.getId() == null || dto.getId().isEmpty()) {
-            throw new IllegalArgumentException("id cannot be null or empty");
+        if (dto.getId() == null) {
+            throw new IllegalArgumentException("Sale id cannot be null");
         }
-
     }
 
-    public Sale existAndGet(String id) {
-        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("id not found"));
+    public Sale ExistAndGet(String id) {
+        return repository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Sale with id " + id + " does not exist")
+        );
     }
 }

@@ -15,9 +15,8 @@ import static uz.pdp.repository.impl.InMemoryCategoryRepository.CATEGORIES;
 @Repository
 public class InMemoryMedicineRepository implements MedicineRepository {
 
-    List<MedicineDTO> medicines = new ArrayList<>(List.of(
-            new MedicineDTO(
-                    null,
+    public static final List<Medicine> medicines = new ArrayList<>(List.of(
+            new Medicine(
                     "Paracetamol",
                     "1111111111111",
                     LocalDate.of(2025, 1, 1),
@@ -27,8 +26,7 @@ public class InMemoryMedicineRepository implements MedicineRepository {
                     100,
                     1.50
             ),
-            new MedicineDTO(
-                    null,
+            new Medicine(
                     "Ambroxol",
                     "2222222222222",
                     LocalDate.of(2024, 12, 10),
@@ -38,8 +36,7 @@ public class InMemoryMedicineRepository implements MedicineRepository {
                     50,
                     3.20
             ),
-            new MedicineDTO(
-                    null,
+            new Medicine(
                     "Nurofen",
                     "3333333333333",
                     LocalDate.of(2025, 2, 15),
@@ -52,8 +49,7 @@ public class InMemoryMedicineRepository implements MedicineRepository {
     @Override
     public Medicine save(Medicine medicine) {
         delete(medicine);
-        medicines.add(new MedicineDTO(
-                medicine.getId(),
+        medicines.add(new Medicine(
                 medicine.getName(),
                 medicine.getBarCode(),
                 medicine.getIssueDate(),
@@ -87,7 +83,7 @@ public class InMemoryMedicineRepository implements MedicineRepository {
     }
 
     @Override
-    public List<MedicineDTO> findAll() {
+    public List<Medicine> findAll() {
         return medicines;
     }
 

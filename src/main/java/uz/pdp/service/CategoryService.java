@@ -33,14 +33,18 @@ public class CategoryService
     }
 
     @Override
-    public List<Category> getAll() {
-        return repository.findAll();
+    public List<Category> getAll(String search) {
+
+        return repository.findAll().stream().filter(
+                c -> c.getName().toLowerCase().contains(search.toLowerCase())
+        ).toList();
     }
 
+
     @Override
-    public Category update(String dto, String id) {
+    public Category update(String name, String id) {
         Category category = validator.existAndGet(id);
-        category.setName(dto);
+        category.setName(name);
         return repository.save(category);
     }
 

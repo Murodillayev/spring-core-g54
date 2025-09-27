@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 import uz.pdp.model.dto.UserDTO;
 import uz.pdp.model.entity.AuthUser;
 
+import java.util.List;
+
 @Component
 public class UserMapper {
     public AuthUser fromDto(UserDTO dto) {
@@ -26,5 +28,9 @@ public class UserMapper {
         userDTO.setPhone(save.getPhone());
         userDTO.setRole(save.getRole());
         return userDTO;
+    }
+
+    public List<UserDTO> toDtoList(List<AuthUser> users) {
+        return users.stream().map(this::toDto).toList();
     }
 }

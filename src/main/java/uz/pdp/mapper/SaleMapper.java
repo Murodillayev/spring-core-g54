@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Configuration;
 import uz.pdp.model.dto.SaleDTO;
 import uz.pdp.model.entity.Sale;
 
+import java.util.List;
+
 @Configuration
 public class SaleMapper {
     public SaleDTO toDTO(Sale save) {
@@ -11,6 +13,7 @@ public class SaleMapper {
         dto.setId(save.getId());
         dto.setCashier(save.getCashier());
         dto.setTotalPrice(save.getTotalPrice());
+        dto.setCreatedAt(save.getCreatedAt());
         return dto;
     }
 
@@ -20,5 +23,9 @@ public class SaleMapper {
         sale.setCashier(dto.getCashier());
         sale.setTotalPrice(dto.getTotalPrice());
         return sale;
+    }
+
+    public List<SaleDTO> toDtoList(List<Sale> all) {
+        return all.stream().map(this::toDTO).toList();
     }
 }

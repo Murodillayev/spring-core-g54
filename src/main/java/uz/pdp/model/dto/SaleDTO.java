@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.pdp.model.entity.AuthUser;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @Setter
 @Getter
@@ -14,4 +16,5 @@ public class SaleDTO {
     private String id;
     private Double totalPrice;
     private AuthUser cashier;
+    private LocalDateTime createdAt;
 }

@@ -4,6 +4,9 @@ import org.springframework.stereotype.Component;
 import uz.pdp.model.dto.MedicineDTO;
 import uz.pdp.model.entity.Medicine;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class MedicineMapper {
     public Medicine fromDTO(MedicineDTO dto) {
@@ -32,5 +35,9 @@ public class MedicineMapper {
         dto.setIssueDate(save.getIssueDate());
         dto.setExpiryDate(save.getExpiryDate());
         return dto;
+    }
+
+    public List<MedicineDTO> toDtoList(List<Medicine> all) {
+        return all.stream().map(this::toDTO).collect(Collectors.toList());
     }
 }

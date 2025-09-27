@@ -1,6 +1,7 @@
 package uz.pdp.repository;
 
-import uz.pdp.model.dto.SaleDTO;
+import org.springframework.stereotype.Repository;
+import uz.pdp.model.entity.AuthUser;
 import uz.pdp.model.entity.Sale;
 
 import java.util.List;
@@ -9,9 +10,10 @@ import java.util.Optional;
 public interface SaleRepository {
     Sale save(Sale sale);
 
-    Optional<SaleDTO> findById(String id);
+    Optional<Sale> findById(String id);
 
-    List<SaleDTO> findAll();
+    List<Sale> findAll();
 
     void  delete(Sale sale);
+
 }

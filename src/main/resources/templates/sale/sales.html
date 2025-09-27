@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Receipt</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/sale.css">
+
+</head>
+<body>
+<div th:replace="~{../fragments/navbar :: main-nav('sale')}" class="navbar-custom"></div>
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Receipts</h1>
+
+    <!-- Loop through all sales -->
+    <div th:each="sale, st : ${sales}" class="receipt">
+        <div class="receipt-header">
+            <p><strong>#:</strong> <span th:text="${st.count}"></span></p>
+            <p><strong>Cashier:</strong>
+                <span th:text="${sale.cashier.fullName} ?: ${sale.cashier.username}"></span>
+            </p>
+            <p><strong>Date:</strong>
+            <span th:text="${#temporals.format(sale.createdAt, 'dd-MM-yyyy HH:mm')}"></span>
+        </p>
+        </div>
+
+        <!-- Items for this sale -->
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th>Medicine</th>
+                <th>Price ($)</th>
+                <th>Qty</th>
+                <th>Line Total ($)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="item : ${saleItems}">
+                <tr th:if="${item.sale.id == sale.id}">
+                    <td th:text="${item.medicine.name}"></td>
+                    <td th:text="${#numbers.formatDecimal(item.price / item.quantity, 1, 2)}"></td>
+                    <td th:text="${item.quantity}"></td>
+                    <td th:text="${#numbers.formatDecimal(item.price, 1, 2)}"></td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+
+        <div class="receipt-footer text-end">
+            <p><strong>Total:</strong>
+                <span th:text="${#numbers.formatDecimal(sale.totalPrice, 1, 2)}"></span> $
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -14,7 +14,7 @@ public interface CrudService<D, CD, UD, I> {
 
     D get(I id);
 
-    List<D> getAll();
+    List<D> getAll(String search);
 
     D update(UD dto, I id);
 
