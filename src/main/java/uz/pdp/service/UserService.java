@@ -35,7 +35,10 @@ public class UserService extends AbstractService<
 
     @Override
     public List<UserDTO> getAll(String search) {
-        return users;
+        return mapper.toDtoList(repository.findAll().stream()
+                .filter(
+                        u->u.getUsername().toLowerCase().contains(search.toLowerCase())
+                ).toList());
     }
 
     @Override
@@ -44,7 +47,6 @@ public class UserService extends AbstractService<
         authUser.setFullName(dto.getFullName());
         authUser.setPassword(dto.getPassword());
         authUser.setPhone(dto.getPhone());
-        authUser.setId(dto.getId());
         authUser.setUsername(dto.getUsername());
         authUser.setRole(dto.getRole());
         return mapper.toDto(repository.save(authUser));

@@ -9,14 +9,16 @@ import uz.pdp.validator.SaleItemValidator;
 
 import java.util.List;
 
+import static uz.pdp.repository.impl.InMemorySaleItemRepository.saleItems;
+
 @Service
 public class SaleItemService extends AbstractService<
         SaleItemRepository,
         SaleItemMapper,
         SaleItemValidator> implements CrudService<SaleItemDTO,SaleItemDTO,SaleItemDTO,String> {
-    {
 
-    }
+
+
 
     protected SaleItemService(SaleItemRepository repository, SaleItemMapper mapper, SaleItemValidator validator) {
         super(repository, mapper, validator);
@@ -38,7 +40,7 @@ public class SaleItemService extends AbstractService<
 
     @Override
     public List<SaleItemDTO> getAll(String search) {
-        return repository.findAll();
+        return mapper.toDtoList(saleItems);
     }
 
     @Override

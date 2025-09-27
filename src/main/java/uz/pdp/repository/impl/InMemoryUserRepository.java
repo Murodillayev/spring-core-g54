@@ -18,23 +18,16 @@ public class InMemoryUserRepository implements UserRepository {
 
 
 
-    public static final List<UserDTO> users =new ArrayList<>(List.of(
-            new UserDTO(UUID.randomUUID().toString(),"Admin","Admin","Admin","991112233", AuthRole.ADMIN),
-            new UserDTO(UUID.randomUUID().toString(),"Muhammadali2007","root123","Yoqubjov Muhammadali","991709035",AuthRole.MANAGER),
-            new UserDTO(UUID.randomUUID().toString(),"negga","root123","Ali Aliev","112223344",AuthRole.SELLER)
+    public static final List<AuthUser> users =new ArrayList<>(List.of(
+            new AuthUser("Admin","Admin","Admin","991112233", AuthRole.ADMIN),
+            new AuthUser("Muhammadali2007","root123","Yoqubjov Muhammadali","991709035",AuthRole.MANAGER),
+            new AuthUser("negga","root123","Ali Aliev","112223344",AuthRole.SELLER)
 
     ));
 
     @Override
     public AuthUser save(AuthUser authUser) {
-        users.add(new UserDTO(
-                UUID.randomUUID().toString(),
-                authUser.getUsername(),
-                authUser.getPassword(),
-                authUser.getFullName(),
-                authUser.getPhone(),
-                authUser.getRole()
-        ));
+        users.add(authUser);
         return authUser;
     }
 
@@ -42,18 +35,11 @@ public class InMemoryUserRepository implements UserRepository {
     public Optional<AuthUser> findById(String id) {
         return users.stream()
                 .filter(u -> u.getId().equals(id))
-                .findFirst()
-                .map(u -> new AuthUser(
-                        u.getUsername(),
-                        u.getPassword(),
-                        u.getFullName(),
-                        u.getPhone(),
-                        u.getRole()
-                ));
+                .findFirst();
     }
 
     @Override
-    public List<UserDTO> findAll() {
+    public List<AuthUser> findAll() {
         return users;
     }
 

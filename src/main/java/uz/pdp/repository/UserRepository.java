@@ -12,7 +12,7 @@ public interface UserRepository {
 
     Optional<AuthUser> findById(String id);
 
-    List<UserDTO> findAll();
+    List<AuthUser> findAll();
 
     void  delete(AuthUser authUser);
 }

@@ -7,14 +7,16 @@ import lombok.Setter;
 import uz.pdp.model.entity.Medicine;
 import uz.pdp.model.entity.Sale;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @Setter
 @Getter
 @NoArgsConstructor
 public class SaleItemDTO {
-    private String id;
     private Sale sale;
     private Medicine medicine;
     private Double price;
     private Integer quantity;
+    private LocalDateTime createdAt;
 }

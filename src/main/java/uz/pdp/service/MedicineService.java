@@ -35,13 +35,14 @@ public class MedicineService
 
     @Override
     public List<MedicineDTO> getAll(String search) {
-        return repository.findAll();
+        return mapper.toDtoList(repository.findAll().
+                stream().filter(m -> m.getName().toLowerCase().contains(search.toLowerCase())
+                ).toList());
     }
 
     @Override
     public MedicineDTO update(MedicineDTO dto, String id) {
         Medicine medicine = validator.ExistAndGet(id);
-        medicine.setId(dto.getId());
         medicine.setName(dto.getName());
         medicine.setDescription(dto.getDescription());
         medicine.setCategory(dto.getCategory());

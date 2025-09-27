@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.pdp.model.entity.base.BaseEntity;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,4 +17,5 @@ public class SaleItem extends BaseEntity {
     private Medicine medicine;
     private Double price;
     private Integer quantity;
+    private LocalDateTime createdAt;
 }

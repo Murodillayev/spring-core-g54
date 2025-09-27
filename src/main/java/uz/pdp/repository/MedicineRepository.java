@@ -12,7 +12,7 @@ public interface MedicineRepository {
 
     Optional<Medicine> findById(String id);
 
-    List<MedicineDTO> findAll();
+    List<Medicine> findAll();
 
     void  delete(Medicine medicine);
 }

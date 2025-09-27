@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
 </head>
 <body>
 <div th:fragment="main-nav(activeMenu)">
@@ -38,6 +39,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
+                           th:classappend="${activeMenu == 'user'} ? ' active' : ''"
                            href="/user">Foydalanuvchilar</a>
                     </li>
                 </ul>

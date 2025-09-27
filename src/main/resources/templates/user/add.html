@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New User</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/addUser.css">
+</head>
+<body>
+<div th:replace="~{../fragments/navbar :: main-nav('auth-user')}" class="navbar-custom"></div>
+
+<div class="container mx-auto p-4">
+    <h1 class="text-center mb-5 display-6 fw-bold text-primary">Add New User</h1>
+
+    <div class="card shadow-lg border-0 rounded-4 mx-auto" style="max-width: 550px;">
+        <div class="card-body p-4">
+            <form th:action="@{/user/add}" th:object="${authUser}" method="post">
+
+                <!-- Username -->
+                <div class="mb-4">
+                    <label for="username" class="form-label fw-semibold">Username</label>
+                    <input type="text" id="username" th:field="*{username}" class="form-control rounded-pill" required />
+                    <div class="form-text text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                </div>
+
+                <!-- Password -->
+                <div class="mb-4">
+                    <label for="password" class="form-label fw-semibold">Password</label>
+                    <input type="password" id="password" th:field="*{password}" class="form-control rounded-pill" required />
+                    <div class="form-text text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                </div>
+
+                <!-- Full Name -->
+                <div class="mb-4">
+                    <label for="fullName" class="form-label fw-semibold">Full Name</label>
+                    <input type="text" id="fullName" th:field="*{fullName}" class="form-control rounded-pill" required />
+                    <div class="form-text text-danger" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
+                </div>
+
+                <!-- Phone -->
+                <div class="mb-4">
+                    <label for="phone" class="form-label fw-semibold">Phone</label>
+                    <input type="text" id="phone" th:field="*{phone}" class="form-control rounded-pill" />
+                    <div class="form-text text-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+                </div>
+
+                <!-- Role -->
+                <div class="mb-4">
+                    <label for="role" class="form-label fw-semibold">Role</label>
+                    <select id="role" th:field="*{role}" class="form-select rounded-pill" required>
+                        <option value="">Select Role</option>
+                        <option value="ADMIN">Admin</option>
+                        <option value="SELLER">Seller</option>
+                        <option value="MANAGER">Manager</option>
+                    </select>
+                    <div class="form-text text-danger" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></div>
+                </div>
+
+                <!-- Submit and Cancel -->
+                <div class="d-flex justify-content-between">
+                    <a th:href="@{/user}" class="btn btn-outline-secondary rounded-pill px-4">Cancel</a>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">
+                        <i class="bi bi-plus-circle me-1"></i> Add User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

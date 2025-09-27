@@ -12,7 +12,7 @@ public interface SaleItemRepository {
 
     Optional<SaleItem> findById(String id);
 
-    List<SaleItemDTO> findAll();
+    List<SaleItem> findAll();
 
     void  delete(SaleItem saleItem);
 }
