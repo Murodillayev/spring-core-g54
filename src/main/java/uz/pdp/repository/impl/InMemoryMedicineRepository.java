@@ -17,7 +17,7 @@ public class InMemoryMedicineRepository implements MedicineRepository {
     public static final List<Medicine> medicines = new ArrayList<>(List.of(
             new Medicine(
                     "Paracetamol",
-                    "1111111111111",
+                    "6921734941268",
                     LocalDate.of(2025, 1, 1),
                     LocalDate.of(2027, 1, 1),
                     "Pain reliever and fever reducer",
