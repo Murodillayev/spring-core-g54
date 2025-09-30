@@ -50,10 +50,4 @@ public class WebAppConfig implements WebMvcConfigurer {
         viewResolver.setOrder(1);
         return viewResolver;
     }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**")
-                .addResourceLocations("classpath:/static/");
-    }
 }
