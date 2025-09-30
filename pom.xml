@@ -12,13 +12,13 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-sec-version>7.0.0-M3</spring-sec-version>
+        <spring-sec-version>6.2.3</spring-sec-version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>7.0.0-M9</version>
+            <version>${spring-sec-version}</version>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
@@ -55,6 +55,7 @@
             <artifactId>spring-security-config</artifactId>
             <version>${spring-sec-version}</version>
         </dependency>
+
 
     </dependencies>
 

@@ -1,5 +1,6 @@
 package uz.pdp.config;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ public class HomeController {
         return "redirect:/login";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")
     public String admin() {
         return "adminPage";

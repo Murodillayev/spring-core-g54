@@ -1,6 +1,6 @@
 package uz.pdp.config;
 
-import org.jspecify.annotations.Nullable;
+import io.micrometer.common.lang.Nullable;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.support.AbstractDispatcherServletInitializer;
@@ -12,7 +12,7 @@ public class DispatcherServletInitializer extends AbstractDispatcherServletIniti
     protected WebApplicationContext createServletApplicationContext() {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.register(WebAppConfig.class);
-        context.register(SecurityConfiguration.class);
+//        context.register(SecurityConfiguration.class);
         return context;
     }
 
