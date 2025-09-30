@@ -1,4 +1,4 @@
-package uz.pdp.config;
+package uz.pdp.config.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
