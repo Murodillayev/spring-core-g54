@@ -9,12 +9,14 @@
 <body>
 <div th:replace="~{../fragments/navbar :: main-nav('sale')}" class="navbar-custom"></div>
 
-<!--<input id="barcodeInput" type="text" placeholder="Scan barcode" autofocus>-->
-<!--<button id="submitBtn" th:attr="onclick=|buy()|">Sotishni tasdiqlash</button>-->
 
+<!--<button id="submitBtn" th:attr="onclick=|buy()|">Sotishni tasdiqlash</button>-->
+<input id="barcodeInput" type="text" placeholder="Scan barcode" autofocus>
+<br>
 <form id="checkoutForm" th:action="@{/sale}" method="post">
     <input type="hidden" name="cashierId" th:value="1" /> <!-- Agar cashierId session'dan kelsa -->
     <div id="cartItemsContainer"></div>
+
     <button type="submit" id="submitBtn">Sotishni tasdiqlash</button>
 </form>
 
@@ -55,6 +57,7 @@
 <!--</form>-->
 
 <script th:inline="javascript">
+
     const barcodeInput = document.getElementById('barcodeInput');
     const cartList = document.getElementById('cartList');
     const submitBtn = document.getElementById('submitBtn');
@@ -76,40 +79,9 @@
         }
     });
 
-    function buy() {
-        const saleDto = {
-            items: cartItems.map(item => ({
-                medicineId: item.id,
-                unitPrice: item.price,
-                quantity: item.quantity
-            })),
-            cashierId: 1
-        }
-        fetch("/api/sale", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(saleDto)
-        }).then(res => {
-            if (res.ok) {
-                alert("success")
-            } else {
-                throw new Error('Sotuvni tasdiqlashda xatolik yuz berdi');
-            }
-        }).catch(err => {
-            alert(err)
-        })
-    }
-
     function addItemToCart(barcode) {
-        // products ro'yxatida barcode borligini tekshirish
-
-        console.log(barcode)
-
-        console.log(medicines)
-        const product = medicines.find(p => p.barCode === barcode);
-        if (!product) {
+        const medicine = medicines.find(p => p.barCode === barcode);
+        if (!medicine) {
             alert("Mahsulot topilmadi!");
             return;
         }
@@ -119,7 +91,7 @@
         if (existing) {
             existing.quantity += 1;
         } else {
-            cartItems.push({barcode: barcode, quantity: 1, name: product.name, price: product.price, id: product.id});
+            cartItems.push({barcode: barcode, quantity: 1, name: medicine.name, price: medicine.price, id: medicine.id});
         }
         renderCart();
     }
@@ -141,17 +113,6 @@
             alert("Maxsulot savatda yo'q");
         }
     }
-
-    // function renderCart() {
-    //     cartList.innerHTML = '';
-    //     cartItems.forEach(item => {
-    //         if (item.quantity > 0) {
-    //             const li = document.createElement('li');
-    //             li.innerText = `${item.name} (Barcode: ${item.barcode}) × ${item.quantity} = ${item.quantity * item.price} so'm`;
-    //             cartList.appendChild(li);
-    //         }
-    //     });
-    // }
 
     function renderCart() {
         cartList.innerHTML = '';

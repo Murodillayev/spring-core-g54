@@ -1,14 +1,12 @@
 package uz.pdp.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @AllArgsConstructor
 @Setter
 @Getter
 @NoArgsConstructor
+@ToString
 public class SaleItemDto {
     private String medicineId;
     private Double unitPrice;

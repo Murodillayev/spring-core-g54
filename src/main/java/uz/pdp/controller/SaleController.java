@@ -34,7 +34,7 @@ public class SaleController {
     @PostMapping
     public String add(@ModelAttribute SaleCreateDto dto) {
         System.out.println(dto.toString());
-
+        // sava sale logic
         return "redirect:/sale";
 
     }

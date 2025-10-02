@@ -12,6 +12,12 @@
 <div th:replace="~{../fragments/navbar :: main-nav('sale')}" class="navbar-custom"></div>
 
 <div class="container mt-4">
+
+    <form th:action="@{/sale/buy}" class="d-flex">
+        <button type="submit" class="btn btn-primary">
+             Savdo qilish
+        </button>
+    </form>
     <h1 class="text-center mb-4">Receipts</h1>
 
     <!-- Loop through all sales -->
