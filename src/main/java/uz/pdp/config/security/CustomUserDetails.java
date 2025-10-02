@@ -65,4 +65,16 @@ public class CustomUserDetails implements UserDetails {
         return true;
     }
 
+
+    // spring core 1,1,1
+    // spring mvc 1.1.1
+    // spring aop 1.2.2
+    // tomcat 9.0.0
+    // securer 2.2.2
+
+    // boot 3.3.3 [core:1.1.1, sec: 1.1.1, aop: 2.2.2]
+    // core 4.4.4
+    // aop
+    // securty
+
 }
