@@ -1,4 +1,4 @@
-package uz.pdp.config;
+package uz.pdp;
 
 import lombok.Getter;
 import lombok.Setter;

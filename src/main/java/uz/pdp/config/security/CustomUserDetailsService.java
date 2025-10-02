@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import uz.pdp.config.AuthUser;
-import uz.pdp.config.AuthUserRepository;
+import uz.pdp.AuthUser;
+import uz.pdp.AuthUserRepository;
 
 import java.util.ArrayList;
 import java.util.List;

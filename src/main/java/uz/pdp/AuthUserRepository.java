@@ -1,4 +1,4 @@
-package uz.pdp.config;
+package uz.pdp;
 
 import java.util.Optional;
 

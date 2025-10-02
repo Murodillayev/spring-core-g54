@@ -3,22 +3,22 @@ package uz.pdp.config.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
 
-    public SecurityConfiguration(UserDetailsService userDetailsService) {
+    public SecurityConfiguration(CustomUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -27,12 +27,15 @@ public class SecurityConfiguration {
 
         http.authorizeHttpRequests(
                 auth -> {
-                    auth.requestMatchers("/init")
+                    auth.requestMatchers(
+                                    new AntPathRequestMatcher("/login"),
+                                    new AntPathRequestMatcher("/init")
+                            )
                             .permitAll()
 //                            .requestMatchers("/admin")
 //                            .hasRole("ADMIN")
                             .anyRequest()
-                            .fullyAuthenticated();
+                            .authenticated();
                 }
         );
         http.userDetailsService(userDetailsService);
@@ -50,6 +53,18 @@ public class SecurityConfiguration {
         PasswordEncoder instance = NoOpPasswordEncoder.getInstance();
         return instance;
     }
+
+//    @Bean
+//    public UserDetailsService getUserDetailsService() {
+//
+//        UserDetails userDetails = User.withDefaultPasswordEncoder()
+//                .username("user")
+//                .password("password")
+//                .roles("USER")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(userDetails);
+//    }
 
 
 }

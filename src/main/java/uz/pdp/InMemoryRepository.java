@@ -1,4 +1,4 @@
-package uz.pdp.config;
+package uz.pdp;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
