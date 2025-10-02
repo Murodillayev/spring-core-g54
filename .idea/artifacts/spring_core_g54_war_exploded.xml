@@ -18,19 +18,18 @@
           <element id="library" level="project" name="Maven: org.jspecify:jspecify:1.0.0" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:7.0.0-M9" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:7.0.0-M9" />
-          <element id="library" level="project" name="Maven: jakarta.servlet:jakarta.servlet-api:6.1.0" />
-          <element id="library" level="project" name="Maven: org.attoparser:attoparser:2.0.7.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:6.2.10" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:6.2.10" />
+          <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.7.7" />
+          <element id="library" level="project" name="Maven: org.checkerframework:checker-qual:3.49.3" />
+          <element id="library" level="project" name="Maven: org.thymeleaf:thymeleaf:3.1.3.RELEASE" />
           <element id="library" level="project" name="Maven: ognl:ognl:3.3.4" />
-          <element id="library" level="project" name="Maven: org.unbescape:unbescape:1.1.6.RELEASE" />
           <element id="library" level="project" name="Maven: org.javassist:javassist:3.29.0-GA" />
+          <element id="library" level="project" name="Maven: org.attoparser:attoparser:2.0.7.RELEASE" />
+          <element id="library" level="project" name="Maven: org.unbescape:unbescape:1.1.6.RELEASE" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:2.0.16" />
           <element id="library" level="project" name="Maven: org.thymeleaf:thymeleaf-spring6:3.1.3.RELEASE" />
-          <element id="library" level="project" name="Maven: org.thymeleaf:thymeleaf:3.1.3.RELEASE" />
-          <element id="library" level="project" name="Maven: org.checkerframework:checker-qual:3.49.3" />
           <element id="library" level="project" name="Maven: org.projectlombok:lombok:1.18.38" />
-          <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.7.7" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-tx:6.2.10" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:6.2.10" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="spring-core-g54/web/Web" />

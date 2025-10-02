@@ -9,8 +9,15 @@
 <body>
 <div th:replace="~{../fragments/navbar :: main-nav('sale')}" class="navbar-custom"></div>
 
-<input id="barcodeInput" type="text" placeholder="Scan barcode" autofocus>
-<button id="submitBtn">Sotishni tasdiqlash</button>
+<!--<input id="barcodeInput" type="text" placeholder="Scan barcode" autofocus>-->
+<!--<button id="submitBtn" th:attr="onclick=|buy()|">Sotishni tasdiqlash</button>-->
+
+<form id="checkoutForm" th:action="@{/sale}" method="post">
+    <input type="hidden" name="cashierId" th:value="1" /> <!-- Agar cashierId session'dan kelsa -->
+    <div id="cartItemsContainer"></div>
+    <button type="submit" id="submitBtn">Sotishni tasdiqlash</button>
+</form>
+
 <table class="table">
     <thead>
     <tr>
@@ -30,7 +37,10 @@
             <td th:text="${medicine.barCode}"></td>
             <td th:text="${medicine.quantity}"></td>
             <td th:text="${medicine.price}"></td>
-            <td>add</td>
+            <td>
+                <button th:attr="onclick=|addItemToCart('${medicine.barCode}')|">Add</button>
+                <button th:attr="onclick=|removeItemFromCart('${medicine.barCode}')|">Remove</button>
+            </td>
         </tr>
     </th:block>
     </tbody>
@@ -40,9 +50,9 @@
 <h3>Savat</h3>
 <ul id="cartList"></ul>
 
-<form id="checkoutForm" th:action="@{/sale}" method="post">
-    <input type="hidden" name="itemsJson" id="itemsJson">
-</form>
+<!--<form id="checkoutForm" th:action="@{/sale}" method="post">-->
+<!--    <input type="hidden" name="itemsJson" id="itemsJson">-->
+<!--</form>-->
 
 <script th:inline="javascript">
     const barcodeInput = document.getElementById('barcodeInput');
@@ -66,6 +76,32 @@
         }
     });
 
+    function buy() {
+        const saleDto = {
+            items: cartItems.map(item => ({
+                medicineId: item.id,
+                unitPrice: item.price,
+                quantity: item.quantity
+            })),
+            cashierId: 1
+        }
+        fetch("/api/sale", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(saleDto)
+        }).then(res => {
+            if (res.ok) {
+                alert("success")
+            } else {
+                throw new Error('Sotuvni tasdiqlashda xatolik yuz berdi');
+            }
+        }).catch(err => {
+            alert(err)
+        })
+    }
+
     function addItemToCart(barcode) {
         // products ro'yxatida barcode borligini tekshirish
 
@@ -83,24 +119,78 @@
         if (existing) {
             existing.quantity += 1;
         } else {
-            cartItems.push({barcode: barcode, quantity: 1, name: product.name, price: product.price});
+            cartItems.push({barcode: barcode, quantity: 1, name: product.name, price: product.price, id: product.id});
         }
         renderCart();
     }
 
+    function removeItemFromCart(barcode) {
+        const product = medicines.find(p => p.barCode === barcode);
+        if (!product) {
+            alert("Mahsulot topilmadi!");
+            return;
+        }
+        const existing = cartItems.find(item => item.barcode === barcode);
+        if (existing) {
+            existing.quantity -= 1;
+            if (existing.quantity <= 0) {
+                cartItems = cartItems.filter(item => item.barcode !== barcode); // 0 bo'lsa olib tashlash
+            }
+            renderCart();
+        } else {
+            alert("Maxsulot savatda yo'q");
+        }
+    }
+
+    // function renderCart() {
+    //     cartList.innerHTML = '';
+    //     cartItems.forEach(item => {
+    //         if (item.quantity > 0) {
+    //             const li = document.createElement('li');
+    //             li.innerText = `${item.name} (Barcode: ${item.barcode}) × ${item.quantity} = ${item.quantity * item.price} so'm`;
+    //             cartList.appendChild(li);
+    //         }
+    //     });
+    // }
+
     function renderCart() {
         cartList.innerHTML = '';
-        cartItems.forEach(item => {
-            const li = document.createElement('li');
-            li.innerText = `${item.name} (Barcode: ${item.barcode}) × ${item.quantity} = ${item.quantity * item.price} so'm`;
-            cartList.appendChild(li);
+        const cartItemsContainer = document.getElementById('cartItemsContainer');
+        cartItemsContainer.innerHTML = ''; // Oldingi inputlarni tozalash
+
+        cartItems.forEach((item, index) => {
+            if (item.quantity > 0) {
+                // Savat ro'yxatini ko'rsatish
+                const li = document.createElement('li');
+                li.innerText = `${item.name} (Barcode: ${item.barcode}) × ${item.quantity} = ${item.quantity * item.price} so'm`;
+                cartList.appendChild(li);
+
+                // Form uchun inputlar yaratish
+                const medicineIdInput = document.createElement('input');
+                medicineIdInput.type = 'hidden';
+                medicineIdInput.name = `items[${index}].medicineId`;
+                medicineIdInput.value = item.id;
+                cartItemsContainer.appendChild(medicineIdInput);
+
+                const quantityInput = document.createElement('input');
+                quantityInput.type = 'hidden';
+                quantityInput.name = `items[${index}].quantity`;
+                quantityInput.value = item.quantity;
+                cartItemsContainer.appendChild(quantityInput);
+
+                const unitPriceInput = document.createElement('input');
+                unitPriceInput.type = 'hidden';
+                unitPriceInput.name = `items[${index}].unitPrice`;
+                unitPriceInput.value = item.price;
+                cartItemsContainer.appendChild(unitPriceInput);
+            }
         });
     }
 
-    submitBtn.addEventListener('click', function () {
-        itemsJsonInput.value = JSON.stringify(cartItems);
-        checkoutForm.submit();
-    });
+    // submitBtn.addEventListener('click', function () {
+    //     itemsJsonInput.value = JSON.stringify(cartItems);
+    //     checkoutForm.submit();
+    // });
 </script>
 </body>
 </html>
