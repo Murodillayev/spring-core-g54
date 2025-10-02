@@ -15,10 +15,15 @@ public class InMemoryRepository implements AuthUserRepository {
     }
 
     private final List<AuthUser> users = new ArrayList<>(List.of(
-            new AuthUser("Muhammadali", "muhammad", "muhammad123", "ADMIN"),
-            new AuthUser("Akmal", "akmal", "akmal123", "USER")
+            new AuthUser("Muhammadali", "muhammad", "$2a$10$O75lZjrCi4GL.7PXOLLiWO2V79V74v7Hnjt92.Lp.P35LYhWbBM.2", "ADMIN"),
+            new AuthUser("Akbar", "akbar", "$2a$10$O75lZjrCi4GL.7PXOLLiWO2V79V74v7Hnjt92.Lp.P35LYhWbBM.2", "USER"),
+            new AuthUser("Akmal", "akmal", "$2a$10$O75lZjrCi4GL.7PXOLLiWO2V79V74v7Hnjt92.Lp.P35LYhWbBM.2", "USER", List.of(
+                    "show:profile",
+                    "show:statistic",
+                    "create:user",
+                    "update:user"
+            ))
     ));
-
 
 
     @Override

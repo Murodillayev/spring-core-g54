@@ -18,6 +18,7 @@ import java.util.List;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final AuthUserRepository repository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -26,9 +27,18 @@ public class CustomUserDetailsService implements UserDetailsService {
         );
 
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        SimpleGrantedAuthority role = new SimpleGrantedAuthority(authUser.getRole());
+        SimpleGrantedAuthority role = new SimpleGrantedAuthority("ROLE_" + authUser.getRole());
         authorities.add(role);
+        List<SimpleGrantedAuthority> pers = authUser.getPermissions().stream().map(SimpleGrantedAuthority::new).toList();
+        authorities.addAll(pers);
 
-        return new User(authUser.getUsername(), authUser.getPassword(), authorities);
+//        return new User(authUser.getUsername(), authUser.getPassword(), authorities);
+        return new CustomUserDetails(authUser.getUsername(), authUser.getPassword(), authorities, authUser.getId(), false, "uz");
+
+        // {ROLE_USER}
+        // {ROLE_USER, show:profile, show:.. ..... }
+        // {ROLE_ADMIN}
+
+
     }
 }
