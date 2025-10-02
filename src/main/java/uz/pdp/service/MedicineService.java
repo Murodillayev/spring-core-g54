@@ -1,5 +1,6 @@
 package uz.pdp.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import uz.pdp.mapper.MedicineMapper;
 import uz.pdp.model.dto.MedicineDto;
@@ -17,7 +18,7 @@ public class MedicineService
         MedicineValidator> implements CrudService<MedicineDto, MedicineDto, MedicineDto,String>{
 
 
-    protected MedicineService(MedicineRepository repository, MedicineMapper mapper, MedicineValidator validator) {
+    protected MedicineService(@Qualifier("medicineRepositoryImpl") MedicineRepository repository, MedicineMapper mapper, MedicineValidator validator) {
         super(repository, mapper, validator);
     }
 

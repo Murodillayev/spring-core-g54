@@ -19,7 +19,7 @@ public class Medicine extends BaseEntity {
     private LocalDate issueDate;
     private LocalDate expiryDate;
     private String description;
-    private Category category;
+    private String categoryId;
     private Integer quantity;
     private Double price;
 }

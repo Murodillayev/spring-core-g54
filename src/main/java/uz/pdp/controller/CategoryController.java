@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import uz.pdp.model.entity.Category;
+import uz.pdp.repository.impl.db.CategoryRepositoryImpl;
 import uz.pdp.service.CategoryService;
 
 import java.util.List;
@@ -14,14 +15,15 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryService service;
+    private final CategoryRepositoryImpl repository;
 
-    public CategoryController(CategoryService service) {
+    public CategoryController(CategoryService service, CategoryRepositoryImpl repository) {
         this.service = service;
+        this.repository = repository;
     }
 
     @GetMapping
     public String categories(Model model, @RequestParam(name = "search", defaultValue = "") String search) {
-
         List<Category> categories = service.getAll(search);
         model.addAttribute("categories", categories);
         return "category/list";

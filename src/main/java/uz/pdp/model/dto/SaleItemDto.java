@@ -8,13 +8,14 @@ import uz.pdp.model.entity.Medicine;
 import uz.pdp.model.entity.Sale;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Setter
 @Getter
 @NoArgsConstructor
 public class SaleItemDto {
-    private String medicineId;
+    private UUID medicineId;
     private Double unitPrice;
     private Integer quantity;
 }

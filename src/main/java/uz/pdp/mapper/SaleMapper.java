@@ -34,8 +34,6 @@ public class SaleMapper {
                 .name(cashier.getFullName())
                 .build());
         dto.setTotalPrice(save.getTotalPrice());
-        dto.setCreatedAt(save.getCreatedAt());
-//        dto.setItems(prepareItems(save.));
         return dto;
     }
 
@@ -45,7 +43,7 @@ public class SaleMapper {
         List<SaleItemDto> items = dto.getItems();
         double totalPrice = 0d;
         for (SaleItemDto item : items) {
-            Medicine medicine = medicineValidator.existAndGet(item.getMedicineId());
+            Medicine medicine = medicineValidator.existAndGet(String.valueOf(item.getMedicineId()));
             SaleItem saleItem = new SaleItem();
             saleItem.setQuantity(item.getQuantity());
             saleItem.setPrice(item.getUnitPrice());

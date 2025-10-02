@@ -1,0 +1,35 @@
+create table medicine(
+    id varchar(100) not null,
+    name varchar(100) not null,
+    bar_code varchar(100) not null,
+    issue_date timestamp default now(),
+    expiry_date timestamp default now(),
+    description varchar(100) not null,
+    category_id varchar(100),
+    quantity int,
+    price numeric);
+
+create table sale(
+    id varchar(100) primary key,
+    total_price numeric,
+    cashier_id varchar(100) not null);
+
+
+create table sale_item(
+    id varchar(100) primary key,
+    sale_id varchar(100) not null,
+    medicine_id varchar(100) not null,
+    price numeric,
+    quantity int);
+
+create table users(
+    id varchar(100) primary key,
+    username varchar(100) not null,
+    password varchar(100) not null,
+    full_name varchar(100) not null,
+    phone varchar(100) not null,
+    role varchar not null);
+
+create table category (
+    id varchar primary key,
+    name varchar not null);

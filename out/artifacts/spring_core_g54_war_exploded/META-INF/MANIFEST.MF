@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Created-By: IntelliJ IDEA
-Built-By: macbookpro
-Build-Jdk: Amazon Corretto 17.0.14 - aarch64
+Built-By: USER
+Build-Jdk: Eclipse Temurin 21.0.7
 

@@ -33,4 +33,8 @@ public class UserMapper {
     public List<UserDTO> toDtoList(List<AuthUser> users) {
         return users.stream().map(this::toDto).toList();
     }
+
+    public List<AuthUser> FromDtoList(List<UserDTO> all) {
+        return all.stream().map(this::fromDto).toList();
+    }
 }

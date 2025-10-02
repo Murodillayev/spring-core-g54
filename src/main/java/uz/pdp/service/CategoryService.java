@@ -17,7 +17,7 @@ public class CategoryService
         CategoryValidator>
         implements CrudService<Category, String, String, String> {
 
-    protected CategoryService(@Qualifier("named-jdbc") CategoryRepository repository, CategoryMapper mapper, CategoryValidator validator) {
+    protected CategoryService(@Qualifier("categoryRepositoryImpl") CategoryRepository repository, CategoryMapper mapper, CategoryValidator validator) {
         super(repository, mapper, validator);
     }
 

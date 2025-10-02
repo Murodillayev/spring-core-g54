@@ -1,5 +1,6 @@
 package uz.pdp.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import uz.pdp.mapper.SaleItemMapper;
 import uz.pdp.model.dto.SaleItemDto;
@@ -18,7 +19,7 @@ public class SaleItemService extends AbstractService<
 
 
 
-    protected SaleItemService(SaleItemRepository repository, SaleItemMapper mapper, SaleItemValidator validator) {
+    protected SaleItemService(@Qualifier("saleItemRepositoryImpl") SaleItemRepository repository, SaleItemMapper mapper, SaleItemValidator validator) {
         super(repository, mapper, validator);
     }
 

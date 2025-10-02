@@ -17,5 +17,4 @@ public class SaleItem extends BaseEntity {
     private Medicine medicine;
     private Double price;
     private Integer quantity;
-    private LocalDateTime createdAt;
 }

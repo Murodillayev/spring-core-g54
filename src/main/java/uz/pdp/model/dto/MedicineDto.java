@@ -1,7 +1,6 @@
 package uz.pdp.model.dto;
 
 import lombok.*;
-import uz.pdp.model.entity.Category;
 
 import java.time.LocalDate;
 

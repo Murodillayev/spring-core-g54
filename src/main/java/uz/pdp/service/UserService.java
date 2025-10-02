@@ -1,9 +1,11 @@
 package uz.pdp.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import uz.pdp.mapper.UserMapper;
 import uz.pdp.model.dto.UserDTO;
 import uz.pdp.model.entity.AuthUser;
+import uz.pdp.model.enums.AuthRole;
 import uz.pdp.repository.AuthUserRepository;
 import uz.pdp.validator.UserValidator;
 
@@ -15,7 +17,7 @@ public class UserService extends AbstractService<
         UserMapper,
         UserValidator> implements CrudService<UserDTO,UserDTO,UserDTO,String>{
 
-    protected UserService(AuthUserRepository repository, UserMapper mapper, UserValidator validator) {
+    protected UserService(@Qualifier("authUserRepositoryImpl") AuthUserRepository repository, UserMapper mapper, UserValidator validator) {
         super(repository, mapper, validator);
     }
 
@@ -54,5 +56,11 @@ public class UserService extends AbstractService<
     public void delete(String id) {
         AuthUser authUser = validator.ExistAndGet(id);
         repository.delete(authUser);
+    }
+
+    public List<AuthUser> getAllTheCashiers() {
+        return repository.findAll().stream()
+                .filter(u -> u.getRole().equals(AuthRole.SELLER))
+                .toList();
     }
 }

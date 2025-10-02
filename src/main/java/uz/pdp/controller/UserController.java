@@ -4,23 +4,34 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import uz.pdp.mapper.UserMapper;
 import uz.pdp.model.dto.UserDTO;
 import uz.pdp.model.entity.AuthUser;
+import uz.pdp.repository.impl.db.AuthUserRepositoryImpl;
 import uz.pdp.service.UserService;
 
 import java.util.List;
+
+import static uz.pdp.repository.impl.db.AuthUserRepositoryImpl.users;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
     public final UserService userService;
+    private final UserMapper userMapper;
+    private final AuthUserRepositoryImpl authUserRepository;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserMapper userMapper, AuthUserRepositoryImpl authUserRepository) {
         this.userService = userService;
+        this.userMapper = userMapper;
+        this.authUserRepository = authUserRepository;
     }
     @GetMapping
     public String UsersPage(Model model, @RequestParam(name = "search", defaultValue = "") String search ){
         List<UserDTO> all = userService.getAll(search);
+//        for (AuthUser u : users) {
+//            authUserRepository.save(u);
+//        }
         model.addAttribute("users",all);
         return "user/users";
 

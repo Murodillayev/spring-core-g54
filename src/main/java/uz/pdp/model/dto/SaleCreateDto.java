@@ -13,6 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SaleCreateDto {
-    private List<SaleItemDto> items;
     private String cashierId;
+    private List<SaleItemDto> items;
 }

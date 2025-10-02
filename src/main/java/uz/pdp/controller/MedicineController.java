@@ -4,13 +4,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import uz.pdp.mapper.MedicineMapper;
 import uz.pdp.model.dto.MedicineDto;
 import uz.pdp.model.entity.Category;
 import uz.pdp.model.entity.Medicine;
+import uz.pdp.repository.impl.db.MedicineRepositoryImpl;
 import uz.pdp.service.CategoryService;
 import uz.pdp.service.MedicineService;
 
 import java.util.List;
+
+//import static uz.pdp.repository.impl.db.MedicineRepositoryImpl.medicines;
 
 @Controller
 @RequestMapping("/medicine")
@@ -18,11 +22,15 @@ public class MedicineController {
     private final MedicineService service;
     private final MedicineService medicineService;
     private final CategoryService categoryService;
+    private final MedicineMapper medicineMapper;
+    private final MedicineRepositoryImpl medicineRepositoryImpl;
 
-    public MedicineController(MedicineService service, MedicineService medicineService, CategoryService categoryService) {
+    public MedicineController(MedicineService service, MedicineService medicineService, CategoryService categoryService, MedicineMapper medicineMapper, MedicineRepositoryImpl medicineRepositoryImpl) {
         this.service = service;
         this.medicineService = medicineService;
         this.categoryService = categoryService;
+        this.medicineMapper = medicineMapper;
+        this.medicineRepositoryImpl = medicineRepositoryImpl;
     }
 
     @GetMapping

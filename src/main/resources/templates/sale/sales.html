@@ -5,55 +5,468 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sales Receipt</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../static/sales.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="../../static/sales.css">
+    <style>
+        .btn-add-to-cart {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        border: none;
+        border-radius: 8px;
+        color: #fff;
+        padding: 6px 14px;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.25s ease-in-out;
+        height: 38px;
+    }
+
+    .btn-add-to-cart i {
+        font-size: 15px;
+    }
+
+    .btn-add-to-cart:hover {
+        background: linear-gradient(135deg, #20c997, #28a745);
+        transform: translateY(-2px);
+        box-shadow: 0 3px 10px rgba(32, 201, 151, 0.3);
+    }
+
+    .btn-add-to-cart:active {
+        transform: scale(0.95);
+    }
+
+
+    #message-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            width: 300px;
+            max-width: 90%;
+        }
+        #message-container .alert {
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease-in-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .alert.fade-out {
+            animation: slideOut 0.3s ease-in-out forwards;
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        .navbar-custom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 0;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .search-section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .cart-section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: sticky;
+            top: 20px;
+        }
+        .product-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .product-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+        .product-card.selected {
+            background-color: #e6ffe6;
+            transition: background-color 0.5s;
+        }
+
+        .quantity-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .quantity-high { background-color: #d4edda; color: #155724; }
+        .quantity-medium { background-color: #fff3cd; color: #856404; }
+        .quantity-low { background-color: #f8d7da; color: #721c24; }
+        .quantity-out { background-color: #e9ecef; color: #495057; }
+        .cart-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .cart-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+        .total-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .btn-add-to-cart {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 8px 16px;
+            transition: all 0.3s ease;
+        }
+        .btn-add-to-cart:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+            color: white;
+        }
+        .btn-add-to-cart:disabled {
+            background: #e9ecef;
+            color: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .quantity-input {
+            width: 80px;
+            text-align: center;
+        }
+        .price-input {
+            width: 120px;
+            text-align: right;
+            display: inline-block;
+        }
+        .barcode-scanner {
+            background: linear-gradient(135deg, #fd7e14 0%, #ffc107 100%);
+            border: none;
+            color: white;
+        }
+        .barcode-scanner:hover {
+            background: linear-gradient(135deg, #e76400 0%, #e6b800 100%);
+            color: white;
+        }
+        @media (max-width: 768px) {
+            @page {
+                size: 80mm 150mm;
+                margin: 0;
+            }
+            body {
+                zoom: 80%;
+            }
+            .cart-section { position: static; margin-top: 20px; }
+            .product-card { padding: 12px; }
+            .quantity-input { width: 60px; }
+            .price-input { width: 100px; }
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{../fragments/navbar :: main-nav('sale')}" class="navbar-custom"></div>
 
-<div class="container mt-4">
-    <h1 class="text-center mb-4">Receipts</h1>
 
-    <!-- Loop through all sales -->
-    <div th:each="sale, st : ${sales}" class="receipt">
-        <div class="receipt-header">
-            <p><strong>#:</strong> <span th:text="${st.count}"></span></p>
-            <p><strong>Cashier:</strong>
-                <span th:text="${sale.cashier.name}"></span>
-            </p>
-            <p><strong>Date:</strong>
-            <span th:text="${#temporals.format(sale.createdAt, 'dd-MM-yyyy HH:mm')}"></span>
-        </p>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="search-section">
+            <h5 class="mb-3"><i class="fas fa-search me-2"></i>Mahsulot qidirish</h5>
+            <div class="container mx-auto p-4">
+                <div class="search-section">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8 col-md-7 mb-3 mb-md-0">
+                            <form method="GET" action="/sale" class="row g-2">
+                                <div class="col-md-8 col-sm-8">
+                                    <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                                        <input type="text" class="form-control" name="search"
+                                               th:value="${param.search}"
+                                               placeholder="dorini ismi boyicha qidirish...">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <button type="submit" class="btn btn-outline-primary w-100">
+                                        <i class="fas fa-search me-1"></i>
+                                        Qidirish
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <div class="search-section mt-4">
+        <h5 class="mb-3"><i class="fas fa-capsules me-2"></i>Available Medicines</h5>
+        <div th:if="${#lists.isEmpty(medicines)}" class="text-muted">No medicines found</div>
+            <div th:each="medicine : ${medicines}"
+                 class="product-card"
+                 th:attr="data-id=${medicine.id}, data-price=${medicine.price}">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h6 th:text="${medicine.name}"></h6>
+                        <p>Barcode: <span th:text="${medicine.barCode}"></span></p>
+                    </div>
+                    <div class="col-md-3">
+                        <small>Quantity:</small>
+                        <strong th:text="${medicine.quantity}"></strong>
+                    </div>
+                    <div class="col-md-3">
+                        <small>Price:</small>
+                        <strong th:text="${medicine.price} + ' $'" class="price-text"></strong>
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-end align-items-center">
+                        <button onclick="decrementQty(this)">
+                            <i class="fas fa-minus"></i>
+                        </button>
 
-        <!-- Items for this sale -->
-        <table class="table table-sm">
-            <thead>
-            <tr>
-                <th>Medicine</th>
-                <th>Price ($)</th>
-                <th>Qty</th>
-                <th>Line Total ($)</th>
-            </tr>
-            </thead>
-            <tbody>
-            <th:block th:each="item : ${saleItems}">
-                <tr th:if="${item.sale.id == sale.id}">
-                    <td th:text="${item.medicine.name}"></td>
-                    <td th:text="${#numbers.formatDecimal(item.price / item.quantity, 1, 2)}"></td>
-                    <td th:text="${item.quantity}"></td>
-                    <td th:text="${#numbers.formatDecimal(item.price, 1, 2)}"></td>
-                </tr>
-            </th:block>
-            </tbody>
-        </table>
+                        <input type="number" value="1"
+                               class="form-control form-control-sm text-center mx-2 qty-input"
+                               style="width: 70px;">
 
-        <div class="receipt-footer text-end">
-            <p><strong>Total:</strong>
-                <span th:text="${#numbers.formatDecimal(sale.totalPrice, 1, 2)}"></span> $
-            </p>
+                        <button onclick="incrementQty(this)">
+                            <i class="fas fa-plus"></i>
+                        </button>
+
+                        <button class="btn-add-to-cart ms-2"
+                                onclick="buyProduct(event)">
+                            <i class="fas fa-cart-plus"></i> Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="cart-section">
+            <h5 class="mb-3"><i class="fas fa-shopping-basket me-2"></i>Savat</h5>
+            <div id="cartItems">
+                <div class="cart-empty">
+                    <i class="fas fa-shopping-basket fa-2x"></i>
+                    <p class="mt-2 mb-0">Savat bo'sh</p>
+                    <small class="text-muted">Mahsulot qo'shing</small>
+                </div>
+            </div>
+            <div class="total-section" id="totalSection" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span>Jami mahsulotlar:</span>
+                    <strong id="totalItems">0 ta</strong>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="fs-5">Umumiy summa:</span>
+                    <strong class="fs-4" id="totalAmount">0 UZS</strong>
+                </div>
+                <div class="mb-3">
+                    <label for="cashierSelect" class="form-label">Kassir *</label>
+                    <select class="form-select" id="cashierSelect" required>
+                        <option value="">Kasssirni tanlang...</option>
+                        <option th:each="cashier : ${cashiers}"
+                                th:value="${cashier.id}"
+                                th:text="${cashier.fullName}"></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="paymentMethodSelect" class="form-label">To'lov turi *</label>
+                    <select class="form-select" id="paymentMethodSelect" required>
+                        <option value="">To'lov turini tanlang...</option>
+                        <option value="CASH">Naqd</option>
+                        <option value="CARD">Karta</option>
+                        <option value="OTHER">Boshqa</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-success w-100" onclick="checkoutCart()">
+                    <i class="fas fa-check me-2"></i> Savdoni yakunlash
+                </button>
+
+            </div>
+            <div class="mt-3">
+                <button class="btn btn-outline-danger w-100" onclick="clearCart()">
+                    <i class="fas fa-trash me-2"></i>Savatni tozalash
+                </button>
+            </div>
         </div>
     </div>
 </div>
+<script>
+    let cart = {};
+
+    function renderCart() {
+        const cartItemsDiv = document.getElementById("cartItems");
+        const totalSection = document.getElementById("totalSection");
+        cartItemsDiv.innerHTML = "";
+
+        let totalItems = 0;
+        let totalAmount = 0;
+
+        for (const [id, item] of Object.entries(cart)) {
+            totalItems += item.quantity;
+            totalAmount += item.price * item.quantity;
+
+            const div = document.createElement("div");
+            div.classList.add("cart-item");
+            div.innerHTML = `
+            <strong>${item.name}</strong><br>
+            ${item.quantity} x $${item.price.toFixed(2)}
+            = <b>$${(item.price * item.quantity).toFixed(2)}</b>
+        `;
+            cartItemsDiv.appendChild(div);
+        }
+
+        if (totalItems === 0) {
+            cartItemsDiv.innerHTML = `
+            <div class="cart-empty">
+                <i class="fas fa-shopping-basket fa-2x"></i>
+                <p class="mt-2 mb-0">Savat bo'sh</p>
+                <small class="text-muted">Mahsulot qo'shing</small>
+            </div>
+        `;
+            totalSection.style.display = "none";
+        } else {
+            document.getElementById("totalItems").innerText = `${totalItems} ta`;
+            document.getElementById("totalAmount").innerText = `${totalAmount.toFixed(2)} $`;
+            totalSection.style.display = "block";
+        }
+    }
+
+    function buyProduct(event) {
+        const btn = event.currentTarget;
+        const productCard = btn.closest(".product-card");
+
+        const productId = productCard.dataset.id;
+        const price = parseFloat(productCard.dataset.price);
+
+        const qtyInput = productCard.querySelector(".qty-input");
+        const qty = parseInt(qtyInput.value);
+
+        const name = productCard.querySelector("h6").innerText;
+
+        // Add to cart
+        if (cart[productId]) {
+            cart[productId].quantity += qty;
+        } else {
+            cart[productId] = {
+                name: name,
+                price: price,
+                quantity: qty
+            };
+        }
+
+        renderCart();
+        showMessage('success', `Added ${qty} item(s) to cart`, 2000);
+
+        // Button animation
+        const originalHTML = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fas fa-check"></i> Added!`;
+
+        setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = originalHTML;
+        }, 1200);
+    }
+
+    function incrementQty(button) {
+        const input = button.parentNode.querySelector(".qty-input");
+        input.value = parseInt(input.value) + 1;
+    }
+
+    function decrementQty(button) {
+        const input = button.parentNode.querySelector(".qty-input");
+        let value = parseInt(input.value);
+        if (value > 1) input.value = value - 1;
+    }
+
+    function clearCart() {
+        cart = {};
+        renderCart();
+    }
+
+    function showMessage(type, message, duration = 2000) {
+        let container = document.getElementById("message-container");
+        if (!container) {
+            container = document.createElement("div");
+            container.id = "message-container";
+            document.body.appendChild(container);
+        }
+
+        const alert = document.createElement("div");
+        alert.className = `alert alert-${type}`;
+        alert.innerText = message;
+
+        container.appendChild(alert);
+
+        setTimeout(() => {
+            alert.classList.add("fade-out");
+            setTimeout(() => alert.remove(), 300);
+        }, duration);
+    }
+
+    function checkoutCart() {
+        console.log("Checking out cart:", cart);
+        const cashierId = document.getElementById("cashierSelect").value;
+        if (!cashierId) { alert("Select a cashier!"); return; }
+
+        const items = Object.entries(cart).map(([id, item]) => ({
+            medicineId: id,
+            unitPrice: Number(item.price),
+            quantity: Number(item.quantity)
+        }));
+        console.log(JSON.stringify({ items, cashierId }));
+        fetch('http://localhost:8080/api/sale/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items,cashierId })
+        })
+            .then(res => {
+                if (res.ok) {
+                    showMessage('success', 'Sale saved to database!', 2000);
+                    clearCart();
+                    window.location.href = "/sale";  // refresh page
+                } else {
+                    return res.text().then(msg => {
+                        showMessage('error', 'Checkout failed: ' + msg, 3000);
+                    });
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                showMessage('error', 'Unexpected error', 3000);
+            });
+    }
+
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.7/purify.min.js"></script>
+
 </body>
 </html>
