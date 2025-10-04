@@ -31,10 +31,4 @@ public class DispatcherServletInitializer extends AbstractDispatcherServletIniti
         return new String[]{"/*"};
     }
 
-
-    @Override
-    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-        MultipartConfigElement multipartConfigElement = new MultipartConfigElement("");
-        registration.setMultipartConfig(multipartConfigElement);
-    }
 }
