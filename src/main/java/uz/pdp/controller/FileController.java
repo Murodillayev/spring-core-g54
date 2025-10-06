@@ -21,8 +21,11 @@ public class FileController {
     }
 
     @PostMapping("/upload")
-    public String upload(@RequestParam("file") MultipartFile file) {
-        service.upload(file);
+    public String upload(@RequestParam("file") MultipartFile[] files) {
+        for (MultipartFile file : files) {
+            service.upload(file);
+        }
+//        service.upload(file);
         return "index";
     }
 

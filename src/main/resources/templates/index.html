@@ -10,7 +10,7 @@
 <body style="margin: 100px">
 <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
     <label for="file">File</label>
-    <input id="file" type="file" name="file"/>
+    <input id="file" type="file" multiple="multiple" name="file"/>
     <button type="submit">save</button>
 </form>
 
