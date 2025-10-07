@@ -20,7 +20,6 @@ public class AuthUserRepositoryImpl implements AuthUserRepository {
     private final JdbcTemplate jdbcTemplate;
 
 
-
     public static final List<AuthUser> users =new ArrayList<>(List.of(
             new AuthUser("Admin","Admin","Admin","991112233", AuthRole.ADMIN),
             new AuthUser("Muhammadali2007","root123","Yoqubjov Muhammadali","991709035",AuthRole.MANAGER),
@@ -30,6 +29,7 @@ public class AuthUserRepositoryImpl implements AuthUserRepository {
     @Override
     public  AuthUser save(AuthUser authUser) {
         Optional<AuthUser> byId = findById(authUser.getId());
+
         String sql = (byId.isPresent())
                 ? "UPDATE users SET username = ?, password = ?, full_name = ?, phone = ?,role = ? WHERE id = ?"
                 : "INSERT INTO users ( username, password, full_name, phone, role,id) VALUES (?, ?, ?, ?, ?, ?)";
@@ -86,5 +86,9 @@ public class AuthUserRepositoryImpl implements AuthUserRepository {
     public void delete(AuthUser authUser) {
         String sql = "DELETE FROM users WHERE id = ?";
         jdbcTemplate.update(sql, authUser.getId());
+    }
+
+    public Optional<AuthUser> findByUsername(String username) {
+        return findAll().stream().filter(user -> user.getUsername().equals(username)).findFirst();
     }
 }

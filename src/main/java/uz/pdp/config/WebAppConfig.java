@@ -18,11 +18,9 @@ import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
-import java.util.List;
-
 @Configuration
 @EnableWebMvc
-@ComponentScan("uz.pdp")
+@ComponentScan(basePackages = {"uz.pdp.controller", "uz.pdp"})
 public class WebAppConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
@@ -67,19 +65,15 @@ public class WebAppConfig implements WebMvcConfigurer {
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule()); // supports LocalDateTime
+        mapper.registerModule(new JavaTimeModule());
         return mapper;
     }
 
     @Bean
     public HttpMessageConverter<Object> jacksonMessageConverter() {
         ObjectMapper objectMapper = new Jackson2ObjectMapperBuilder()
-                .modulesToInstall(JavaTimeModule.class) // register JavaTimeModule
+                .modulesToInstall(JavaTimeModule.class)
                 .build();
-
         return new MappingJackson2HttpMessageConverter(objectMapper);
     }
-
-
-
 }

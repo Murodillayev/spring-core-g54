@@ -16,5 +16,6 @@ public class SaleDTO {
     private String id;
     private Double totalPrice;
     private IdNameDto cashier;
-    private List<SaleItemDto> items;
+    private List<SaleItemDTOForWeb> items;
+    private LocalDateTime createdAt;
 }

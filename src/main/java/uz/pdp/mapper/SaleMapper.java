@@ -14,6 +14,7 @@ import uz.pdp.repository.SaleItemRepository;
 import uz.pdp.validator.AuthUserValidator;
 import uz.pdp.validator.MedicineValidator;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class SaleMapper {
     public SaleDTO toDTO(Sale save) {
         SaleDTO dto = new SaleDTO();
         dto.setId(save.getId());
+        dto.setCreatedAt(save.getCreatedAt());
         AuthUser cashier = save.getCashier();
         dto.setCashier(IdNameDto.builder()
                 .id(cashier.getId())
@@ -52,7 +54,7 @@ public class SaleMapper {
             totalPrice += item.getUnitPrice() * item.getQuantity();
             saleItemRepository.save(saleItem);
         }
-
+        sale.setCreatedAt(LocalDateTime.now());
         sale.setCashier(cashier);
         sale.setTotalPrice(totalPrice);
         return sale;

@@ -1,9 +1,6 @@
 package uz.pdp.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import uz.pdp.model.entity.base.BaseEntity;
 
 import java.math.BigDecimal;
@@ -13,6 +10,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Medicine extends BaseEntity {
     private String name;
     private String barCode;

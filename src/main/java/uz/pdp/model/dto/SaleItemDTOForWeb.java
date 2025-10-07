@@ -5,17 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.pdp.model.entity.Medicine;
-import uz.pdp.model.entity.Sale;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-@AllArgsConstructor
 @Setter
 @Getter
 @NoArgsConstructor
-public class SaleItemDto {
-    private String medicineId;
+@AllArgsConstructor
+public class SaleItemDTOForWeb {
+    private Medicine medicine;
     private Double unitPrice;
     private Integer quantity;
 }

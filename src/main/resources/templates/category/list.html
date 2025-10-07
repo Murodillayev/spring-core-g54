@@ -109,7 +109,7 @@
                                     <span class="d-none d-sm-inline ms-1">O'zgartirish</span>
                                 </a>
 
-                                <a type="button" class="btn btn-outline-danger" th:href="@{/category/delete/{id}(id=${category.id})}">
+                                <a type="button" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this category?');" th:href="@{/category/delete/{id}(id=${category.id})}">
                                     <i class="fas fa-trash"></i>
                                     <span class="d-none d-sm-inline ms-1">O'chirish</span>
                                 </a>

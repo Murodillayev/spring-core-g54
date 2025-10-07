@@ -40,7 +40,7 @@
             <!-- Issue Date -->
             <div class="mb-4">
                 <label for="issueDate" class="block text-sm font-medium text-gray-700">Issue Date</label>
-                <input type="date" id="issueDate" th:value="*{issueDate}"
+                <input type="date" id="issueDate" th:field="*{issueDate}"
                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                        required />
                 <span th:if="${#fields.hasErrors('issueDate')}" th:errors="*{issueDate}" class="text-red-500 text-sm"></span>
@@ -49,7 +49,7 @@
             <!-- Expiry Date -->
             <div class="mb-4">
                 <label for="expiryDate" class="block text-sm font-medium text-gray-700">Expiry Date</label>
-                <input type="date" id="expiryDate" th:value="*{expiryDate}"
+                <input type="date" id="expiryDate" th:field="*{expiryDate}"
                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                        required />
                 <span th:if="${#fields.hasErrors('expiryDate')}" th:errors="*{expiryDate}" class="text-red-500 text-sm"></span>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .signup-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            transform: translateY(0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .signup-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+        .signup-container h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #34495e;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #f9f9f9;
+            transition: border-color 0.3s ease, background 0.3s ease;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #6e8efb;
+            background: #fff;
+            box-shadow: 0 0 8px rgba(110, 142, 251, 0.3);
+        }
+        .form-group input::placeholder {
+            color: #b0b0b0;
+        }
+        .form-group select {
+            appearance: none;
+            cursor: pointer;
+        }
+        .signup-button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(90deg, #6e8efb, #a777e3);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .signup-button:hover {
+            background: linear-gradient(90deg, #5a75e6, #9365d8);
+            transform: scale(1.02);
+        }
+        .signup-button:active {
+            transform: scale(0.98);
+        }
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #34495e;
+        }
+        .login-link a {
+            color: #6e8efb;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .login-link a:hover {
+            color: #5a75e6;
+            text-decoration: underline;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .signup-container {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+<div class="signup-container">
+    <h2>Create Account</h2>
+    <form th:action="@{/signup}" method="post">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+        <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+        </div>
+        <div class="form-group">
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+                <option value="" disabled selected>Select your role</option>
+                <option value="MANAGER">Manager</option>
+                <option value="SELLER">Seller</option>
+            </select>
+        </div>
+        <button type="submit" class="signup-button">Sign Up</button>
+        <div th:if="${param.error != null}" class="error-message">
+            Error during signup. Please try again.
+        </div>
+    </form>
+    <div class="login-link">
+        Already have an account? <a th:href="@{/login}">Log In</a>
+    </div>
+</div>
+<script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+        const username = document.getElementById('username')?.value;
+        const password = document.getElementById('password')?.value;
+        const fullName = document.getElementById('fullName')?.value;
+        const phone = document.getElementById('phone')?.value;
+        const role = document.getElementById('role')?.value;
+        if (!username || !password || !fullName || !phone || !role) {
+            event.preventDefault();
+            alert('Please fill in all fields.');
+        }
+    });
+</script>
+</body>
+</html>

@@ -5,15 +5,18 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import uz.pdp.model.entity.Sale;
+import uz.pdp.repository.AuthUserRepository;
 import uz.pdp.repository.SaleRepository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static uz.pdp.repository.impl.db.AuthUserRepositoryImpl.users;
 //import static uz.pdp.repository.impl.db.SaleItemRepositoryImpl.saleItems;
 //import static uz.pdp.repository.impl.db.SaleItemRepositoryImpl.sales;
 
@@ -21,6 +24,7 @@ import static uz.pdp.repository.impl.db.AuthUserRepositoryImpl.users;
 @AllArgsConstructor
 public class SaleRepositoryImpl implements SaleRepository {
     private JdbcTemplate jdbcTemplate;
+    private AuthUserRepository authUserRepository;
 //    public static void putToSales(){
 //        sales.get(0).setTotalPrice(saleItems.get(0).getPrice()+saleItems.get(1).getPrice());
 //        sales.get(0).setCashier(users.get(2));
@@ -36,11 +40,12 @@ public class SaleRepositoryImpl implements SaleRepository {
     public Sale save(Sale sale) {
         Optional<Sale> byId = findById(sale.getId());
         String sql = (byId.isPresent())
-                ? "UPDATE sale SET total_price = ?, cashier_id = ? WHERE id = ?"
-                : "INSERT INTO sale (total_price, cashier_id,id) VALUES (?, ?,  ?)";
+                ? "UPDATE sale SET total_price = ?, cashier_id = ?, created_at = ? WHERE id = ?"
+                : "INSERT INTO sale (total_price, cashier_id,created_at,id) VALUES (?, ?,?, ?)";
         jdbcTemplate.update(sql,
                 sale.getTotalPrice(),
                 sale.getCashier().getId(),
+                sale.getCreatedAt(),
                 sale.getId());
         return sale;
     }
@@ -49,7 +54,13 @@ public class SaleRepositoryImpl implements SaleRepository {
     public Optional<Sale> findById(String id) {
         String sql = "SELECT * FROM sale WHERE id = ?";
         try {
-            Sale sale = jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Sale.class), id);
+            Sale sale = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+                Sale sale1 = new Sale();
+                sale1.setId(rs.getString("id"));
+                sale1.setTotalPrice(rs.getDouble("total_price"));
+                sale1.setCashier(authUserRepository.findById(rs.getString("cashier_id")).get());
+                return sale1;
+            }, id);
             return Optional.ofNullable(sale);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();

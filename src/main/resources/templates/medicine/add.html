@@ -63,13 +63,11 @@
             <!-- Category -->
             <div class="mb-4">
                 <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-                <select id="category" th:field="*{category.id}"
+                <select id="category" th:field="*{categoryId}"
                         class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                         required>
-                    <option value="">Select Category</option>
                     <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
                 </select>
-                <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="text-red-500 text-sm"></span>
             </div>
 
             <!-- Quantity -->

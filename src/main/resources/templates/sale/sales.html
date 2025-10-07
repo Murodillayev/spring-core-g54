@@ -223,11 +223,13 @@
             </div>
         </div>
         <div class="search-section mt-4">
-        <h5 class="mb-3"><i class="fas fa-capsules me-2"></i>Available Medicines</h5>
-        <div th:if="${#lists.isEmpty(medicines)}" class="text-muted">No medicines found</div>
+            <h5 class="mb-3"><i class="fas fa-capsules me-2"></i>Available Medicines</h5>
+            <div th:if="${#lists.isEmpty(medicines)}" class="text-muted">No medicines found</div>
             <div th:each="medicine : ${medicines}"
                  class="product-card"
-                 th:attr="data-id=${medicine.id}, data-price=${medicine.price}">
+                 th:attr="data-id=${medicine.id},
+              data-price=${medicine.price},
+              data-stock=${medicine.quantity}">
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <h6 th:text="${medicine.name}"></h6>
@@ -246,9 +248,13 @@
                             <i class="fas fa-minus"></i>
                         </button>
 
-                        <input type="number" value="1"
+                        <input type="number"
+                               value="1"
+                               min="1"
+                               th:attr="max=${medicine.quantity}"
                                class="form-control form-control-sm text-center mx-2 qty-input"
                                style="width: 70px;">
+
 
                         <button onclick="incrementQty(this)">
                             <i class="fas fa-plus"></i>
@@ -261,8 +267,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
     <div class="col-lg-4">
@@ -332,11 +336,33 @@
 
             const div = document.createElement("div");
             div.classList.add("cart-item");
+            div.setAttribute('data-id', id);
             div.innerHTML = `
-            <strong>${item.name}</strong><br>
-            ${item.quantity} x $${item.price.toFixed(2)}
-            = <b>$${(item.price * item.quantity).toFixed(2)}</b>
-        `;
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <strong>${item.name}</strong>
+                        <br>
+                        <small class="text-muted">$${item.price.toFixed(2)} each</small>
+                    </div>
+                    <div class="subtotal">
+                        <strong>$${(item.price * item.quantity).toFixed(2)}</strong>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <span>Quantity:</span>
+                    <div class="d-flex align-items-center">
+                        <button type="button" onclick="decrementQtyCart(this)" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:30px;height:30px;">-</button>
+                        <input type="number"
+                           class="form-control form-control-sm mx-2 text-center qty-input-cart"
+                           value="${item.quantity}"
+                           min="1"
+                           max="${item.stock}"
+                           style="width:60px;"
+                           onchange="updateQtyCart(this)">
+                        <button type="button" onclick="incrementQtyCart(this)" class="btn btn-sm btn-outline-secondary rounded-circle" style="width:30px;height:30px;">+</button>
+                    </div>
+                </div>
+            `;
             cartItemsDiv.appendChild(div);
         }
 
@@ -362,20 +388,26 @@
 
         const productId = productCard.dataset.id;
         const price = parseFloat(productCard.dataset.price);
+        const stock = parseInt(productCard.dataset.stock, 10);  // ✅ available stock
 
         const qtyInput = productCard.querySelector(".qty-input");
         const qty = parseInt(qtyInput.value);
 
         const name = productCard.querySelector("h6").innerText;
 
-        // Add to cart
         if (cart[productId]) {
+            // Prevent exceeding stock
+            if (cart[productId].quantity + qty > stock) {
+                alert(`Only ${stock} items available in stock`);
+                return;
+            }
             cart[productId].quantity += qty;
         } else {
             cart[productId] = {
                 name: name,
                 price: price,
-                quantity: qty
+                quantity: qty,
+                stock: stock   // ✅ store stock
             };
         }
 
@@ -395,13 +427,69 @@
 
     function incrementQty(button) {
         const input = button.parentNode.querySelector(".qty-input");
-        input.value = parseInt(input.value) + 1;
+        const max = parseInt(input.max, 10);
+        let value = parseInt(input.value, 10);
+
+        if (value < max) {
+            input.value = value + 1;
+        } else {
+            alert(`Only ${max} items available in stock`);
+        }
     }
 
     function decrementQty(button) {
         const input = button.parentNode.querySelector(".qty-input");
-        let value = parseInt(input.value);
-        if (value > 1) input.value = value - 1;
+        let value = parseInt(input.value, 10);
+
+        if (value > 1) {
+            input.value = value - 1;
+        }
+    }
+
+    function incrementQtyCart(button) {
+        const input = button.parentElement.querySelector(".qty-input-cart");
+        const max = parseInt(input.max, 10);
+        let value = parseInt(input.value, 10);
+
+        if (value < max) {
+            input.value = value + 1;
+            updateQtyCart(input);
+        } else {
+            alert(`Only ${max} items available in stock`);
+        }
+    }
+
+
+    function decrementQtyCart(button) {
+        const input = button.parentElement.querySelector(".qty-input-cart");
+        const itemDiv = button.closest('.cart-item');
+        const productId = itemDiv.dataset.id;
+
+        let value = parseInt(input.value, 10);
+
+        if (value > 1) {
+            input.value = value - 1;
+            updateQtyCart(input);
+        } else {
+            if (confirm("Remove this product from cart?")) {
+                delete cart[productId];
+                renderCart();
+            }
+        }
+    }
+
+
+
+    function updateQtyCart(input) {
+        const itemDiv = input.closest('.cart-item');
+        const productId = itemDiv.dataset.id;
+        let qty = parseInt(input.value);
+        if (isNaN(qty) || qty < 1) {
+            qty = 1;
+            input.value = 1;
+        }
+        cart[productId].quantity = qty;
+        renderCart();
     }
 
     function clearCart() {
@@ -440,21 +528,21 @@
             quantity: Number(item.quantity)
         }));
         console.log(JSON.stringify({ items, cashierId }));
-        fetch('http://localhost:8080/api/sale/checkout', {
+        fetch('/api/sale/checkout', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ items,cashierId })
+            body: JSON.stringify({ items, cashierId })
         })
-            .then(res => {
-                if (res.ok) {
-                    showMessage('success', 'Sale saved to database!', 2000);
-                    clearCart();
-                    window.location.href = "/sale";  // refresh page
-                } else {
-                    return res.text().then(msg => {
-                        showMessage('error', 'Checkout failed: ' + msg, 3000);
-                    });
-                }
+            .then(res => res.json())
+            // .then(res => {
+            //     if (!res.ok) {
+            //         return res.text().then(msg => alert(msg));
+            //     }
+            //     return res.json();
+            // })
+            .then(data => {
+                console.log("Checkout done:", data);
+                window.location.href = `/api/sale/receipt/${data.saleId}`;
             })
             .catch(err => {
                 console.error(err);

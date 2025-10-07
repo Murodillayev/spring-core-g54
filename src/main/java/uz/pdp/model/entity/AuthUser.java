@@ -1,9 +1,6 @@
 package uz.pdp.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import uz.pdp.model.entity.base.BaseEntity;
 import uz.pdp.model.enums.AuthRole;
 
@@ -11,6 +8,7 @@ import uz.pdp.model.enums.AuthRole;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class AuthUser extends BaseEntity {
     private String username;
     private String password;

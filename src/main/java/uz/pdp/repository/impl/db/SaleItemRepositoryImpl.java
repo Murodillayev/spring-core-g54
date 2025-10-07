@@ -5,12 +5,17 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import uz.pdp.model.dto.SaleItemDTOForWeb;
+import uz.pdp.model.dto.SaleItemDto;
 import uz.pdp.model.entity.Medicine;
 import uz.pdp.model.entity.Sale;
 import uz.pdp.model.entity.SaleItem;
 import uz.pdp.repository.SaleItemRepository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +26,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class SaleItemRepositoryImpl implements SaleItemRepository {
     private final JdbcTemplate jdbcTemplate;
+    private final MedicineRepositoryImpl medicineRepository;
 
 
 
@@ -86,5 +92,21 @@ public class SaleItemRepositoryImpl implements SaleItemRepository {
         } catch (DataAccessException e) {
             return Optional.empty();
         }
+    }
+
+    public List<SaleItemDTOForWeb> findBySale(Sale sale) {
+        String sql = "select * from sale_item where sale_id=?";
+        try{
+            return jdbcTemplate.query(sql, (rs, rowNum) -> {
+                SaleItemDTOForWeb saleItemDTO = new SaleItemDTOForWeb();
+                saleItemDTO.setMedicine(medicineRepository.findById(rs.getString("medicine_id")).get());
+                saleItemDTO.setQuantity(rs.getInt("quantity"));
+                saleItemDTO.setUnitPrice(rs.getDouble("price"));
+                return saleItemDTO;
+            }, sale.getId());
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

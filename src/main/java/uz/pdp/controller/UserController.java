@@ -46,6 +46,7 @@ public class UserController {
     }
     @PostMapping("/add")
     public String add(@ModelAttribute UserDTO dto) {
+
         userService.create(dto);
         return "redirect:/user?success=Muvoffaqqiyatli";
     }

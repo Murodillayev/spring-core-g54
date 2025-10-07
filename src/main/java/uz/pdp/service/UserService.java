@@ -1,6 +1,7 @@
 package uz.pdp.service;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.pdp.mapper.UserMapper;
 import uz.pdp.model.dto.UserDTO;
@@ -10,13 +11,14 @@ import uz.pdp.repository.AuthUserRepository;
 import uz.pdp.validator.UserValidator;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService extends AbstractService<
         AuthUserRepository,
         UserMapper,
         UserValidator> implements CrudService<UserDTO,UserDTO,UserDTO,String>{
-
+    private PasswordEncoder passwordEncoder;
     protected UserService(@Qualifier("authUserRepositoryImpl") AuthUserRepository repository, UserMapper mapper, UserValidator validator) {
         super(repository, mapper, validator);
     }
@@ -25,6 +27,8 @@ public class UserService extends AbstractService<
     public UserDTO create(UserDTO dto) {
         validator.validateOnCreate(dto);
         AuthUser authUser = mapper.fromDto(dto);
+        authUser.setId(UUID.randomUUID().toString());
+        authUser.setPassword(passwordEncoder.encode(authUser.getPassword()));
         return mapper.toDto(repository.save(authUser));
     }
 

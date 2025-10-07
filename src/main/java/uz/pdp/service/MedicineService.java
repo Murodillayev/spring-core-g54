@@ -43,11 +43,23 @@ public class MedicineService
 
     @Override
     public MedicineDto update(MedicineDto dto, String id) {
-        return null;
+
+        Medicine medicine = new Medicine();
+        medicine.setName(dto.getName());
+        medicine.setDescription(dto.getDescription());
+        medicine.setCategoryId(dto.getCategory().getId());
+        medicine.setQuantity(dto.getQuantity());
+        medicine.setBarCode(dto.getBarCode());
+        medicine.setPrice(dto.getPrice());
+        medicine.setExpiryDate(dto.getExpiryDate());
+        medicine.setIssueDate(dto.getIssueDate());
+        medicine.setId(dto.getId());
+        System.out.println(medicine);
+        return mapper.toDTO(repository.save(medicine));
     }
 
     @Override
     public void delete(String id) {
-
+        repository.findById(id).ifPresent(repository::delete);
     }
 }
