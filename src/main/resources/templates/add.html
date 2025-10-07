@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit book</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body style="margin: 200px">
+
+<a href="/book">Main</a>
+
+<form th:action="@{/book/add}" method="post" >
+  <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" class="form-control" id="name" name="name" >
+  </div>
+  <div class="mb-3">
+    <label for="12123231" class="form-label">Page count</label>
+    <input type="number" class="form-control" id="12123231" name="pages" >
+  </div>
+  <div class="mb-3">
+    <label for="publishYear" class="form-label">Publish year</label>
+    <input type="number" class="form-control" id="publishYear" name="publishYear" >
+  </div>
+  <div class="mb-3">
+    <label for="author" class="form-label">Author</label>
+    <input type="text" class="form-control" id="author" name="author">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+</body>
+</html>
