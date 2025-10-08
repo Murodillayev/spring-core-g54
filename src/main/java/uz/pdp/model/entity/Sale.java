@@ -16,4 +16,5 @@ import java.time.LocalDate;
 public class Sale extends BaseEntity {
     private Double totalPrice;
     private AuthUser cashier;
+    private AuthUser buyer;
 }

@@ -35,6 +35,11 @@ public class SaleMapper {
                 .id(cashier.getId())
                 .name(cashier.getFullName())
                 .build());
+        AuthUser buyer = save.getBuyer();
+        dto.setBuyer(IdNameDto.builder()
+                .id(buyer.getId())
+                .name(buyer.getFullName())
+                .build());
         dto.setTotalPrice(save.getTotalPrice());
         return dto;
     }
@@ -42,6 +47,7 @@ public class SaleMapper {
     public Sale fromDTO(SaleCreateDto dto) {
         Sale sale = new Sale();
         AuthUser cashier = authUserValidator.existsAndGet(dto.getCashierId());
+        AuthUser buyer = authUserValidator.existsAndGet(dto.getBuyerId());
         List<SaleItemDto> items = dto.getItems();
         double totalPrice = 0d;
         for (SaleItemDto item : items) {
@@ -56,6 +62,7 @@ public class SaleMapper {
         }
         sale.setCreatedAt(LocalDateTime.now());
         sale.setCashier(cashier);
+        sale.setBuyer(buyer);
         sale.setTotalPrice(totalPrice);
         return sale;
     }

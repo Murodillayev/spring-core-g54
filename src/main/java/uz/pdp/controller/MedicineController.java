@@ -1,5 +1,6 @@
 package uz.pdp.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import java.util.UUID;
 
 //import static uz.pdp.repository.impl.db.MedicineRepositoryImpl.medicines;
 
+@PreAuthorize("hasAnyRole('ADMIN','SELLER')")
 @Controller
 @RequestMapping("/medicine")
 public class MedicineController {

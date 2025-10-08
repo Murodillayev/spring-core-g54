@@ -3,9 +3,13 @@ package uz.pdp.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import uz.pdp.config.SecurityConfig;
 import uz.pdp.model.dto.*;
 import uz.pdp.model.entity.AuthUser;
 import uz.pdp.model.entity.Medicine;
@@ -21,7 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+
 @Controller
+@PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
 @RequestMapping("/api/sale")
 @RequiredArgsConstructor
 public class SaleResource {
@@ -29,6 +35,7 @@ public class SaleResource {
     private final SaleItemRepositoryImpl saleItemRepository;
     private final SaleRepositoryImpl saleRepository;
     private final MedicineRepositoryImpl medicineRepository;
+    private final SecurityConfig securityConfig;
 
 
     @PostMapping(value = "/checkout", consumes = "application/json")
@@ -43,6 +50,11 @@ public class SaleResource {
             Sale sale = new Sale();
             sale.setCashier(cashier);
             sale.setCreatedAt(LocalDateTime.now());
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String username = auth.getName();
+            AuthUser currentUser = authUserRepository.findByUsername(username)
+                    .orElseThrow(() -> new RuntimeException("❌ User not found: " + username));
+            sale.setBuyer(currentUser);
             saleRepository.save(sale);
             for (SaleItemDto itemDto : saleCreateDto.getItems()) {
                 totalAmount+=itemDto.getUnitPrice()*itemDto.getQuantity();
@@ -51,7 +63,6 @@ public class SaleResource {
 
                 SaleItem saleItem = saleItemRepository.findBySaleAndMedicine(sale, medicine)
                         .orElse(new SaleItem());
-
                 saleItem.setSale(sale);
                 saleItem.setMedicine(medicine);
                 saleItem.setQuantity(
@@ -92,6 +103,7 @@ public class SaleResource {
                 .orElseThrow(() -> new RuntimeException("Sale id is not correct"));
 
         List<SaleItemDTOForWeb> saleItems = saleItemRepository.findBySale(sale);
+        AuthUser currentUser = securityConfig.getCurrentUser();
 
         SaleDTO saleDTO = new SaleDTO();
         saleDTO.setItems(saleItems);
@@ -101,6 +113,10 @@ public class SaleResource {
         IdNameDto cashier = new IdNameDto();
         cashier.setId(sale.getCashier().getId());
         cashier.setName(sale.getCashier().getFullName());
+        IdNameDto buyer = new IdNameDto();
+        buyer.setId(currentUser.getId());
+        buyer.setName(currentUser.getFullName());
+        saleDTO.setBuyer(buyer);
         saleDTO.setCashier(cashier);
 
         model.addAttribute("sale", saleDTO);

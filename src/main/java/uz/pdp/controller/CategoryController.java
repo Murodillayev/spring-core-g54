@@ -1,5 +1,7 @@
 package uz.pdp.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,15 +13,14 @@ import uz.pdp.service.CategoryService;
 import java.util.List;
 
 @Controller
+@PreAuthorize("hasAnyRole('ADMIN','SELLER')")
 @RequestMapping("/category")
 public class CategoryController {
 
     private final CategoryService service;
-    private final CategoryRepositoryImpl repository;
 
-    public CategoryController(CategoryService service, CategoryRepositoryImpl repository) {
+    public CategoryController(CategoryService service) {
         this.service = service;
-        this.repository = repository;
     }
 
     @GetMapping
@@ -33,6 +34,12 @@ public class CategoryController {
     public String addPage() {
 
         return "category/add";
+    }
+    @GetMapping("/debug")
+    @ResponseBody
+    public String debugAuth() {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        return "Authorities: " + auth.getAuthorities();
     }
 
     @PostMapping("/add")

@@ -45,6 +45,8 @@ public class WebAppConfig implements WebMvcConfigurer {
     public SpringTemplateEngine templateEngine(){
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.setEnableSpringELCompiler(true);
+        templateEngine.addDialect(new org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect());
         return templateEngine;
     }
 

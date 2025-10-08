@@ -14,5 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 public class SaleCreateDto {
     private String cashierId;
+    private String buyerId;
     private List<SaleItemDto> items;
 }

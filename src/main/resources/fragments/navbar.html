@@ -23,25 +23,31 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto me-3">
 
-                    <li class="nav-item">
+                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN','SELLER')">
                         <a class="nav-link"
                            th:attrappend="class=${activeMenu == 'category'} ? ' active' : ''"
                            href="/category">Kategoriyalar</a>
                     </li>
-                    <li class="nav-item">
+
+                    <li class="nav-item" sec:authorize="hasAnyRole('SELLER','ADMIN')">
                         <a class="nav-link"
                            th:classappend="${activeMenu == 'medicine'} ? ' active' : ''"
                            href="/medicine">Dorilar</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" sec:authorize="hasAnyRole('MANAGER','ADMIN')">
                         <a class="nav-link"
                            th:classappend="${activeMenu == 'sale'} ? ' active' : ''"
                            href="/sale">Savdo</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                         <a class="nav-link"
                            th:classappend="${activeMenu == 'user'} ? ' active' : ''"
                            href="/user">Foydalanuvchilar</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN','MANAGER')">
+                        <a class="nav-link"
+                           th:classappend="${activeMenu == 'Reciept'} ? ' active' : ''"
+                           href="/history">Sovdo History</a>
                     </li>
                 </ul>
 

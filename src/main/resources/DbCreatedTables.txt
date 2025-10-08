@@ -12,9 +12,10 @@ create table medicine(
 create table sale(
     id varchar(100) primary key,
     total_price numeric,
-    cashier_id varchar(100) not null);
-
-
+    cashier_id varchar(100) not null,
+    created_at TIMESTAMP DEFAULT now(),
+    buyer_id varchar(100) not null
+);
 create table sale_item(
     id varchar(100) primary key,
     sale_id varchar(100) not null,

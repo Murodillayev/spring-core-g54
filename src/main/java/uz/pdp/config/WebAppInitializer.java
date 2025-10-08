@@ -6,7 +6,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        // Root context = non-web beans like DataSource, Security, Repositories, Services
         return new Class[]{
                 DatasourceConfig.class,
                 SecurityConfig.class
@@ -15,7 +14,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        // Servlet context = Web (controllers, view resolvers, etc.)
         return new Class[]{
                 WebAppConfig.class
         };
@@ -23,7 +21,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected String[] getServletMappings() {
-        // ✅ Only handle web requests
         return new String[]{"/"};
     }
 }

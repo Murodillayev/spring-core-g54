@@ -4,23 +4,32 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+import uz.pdp.hendler.CustomAuthSuccessHandler;
+import uz.pdp.model.entity.AuthUser;
+import uz.pdp.repository.impl.db.AuthUserRepositoryImpl;
 import uz.pdp.service.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 @ComponentScan("uz.pdp")
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final CustomAuthSuccessHandler successHandler;
+    private final AuthUserRepositoryImpl authUserRepository;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    HandlerMappingIntrospector introspector) throws Exception {
@@ -39,7 +48,7 @@ public class SecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/category", true)
+                        .successHandler(successHandler)
                         .permitAll()
                 )
                 .logout(logout -> logout
@@ -58,7 +67,12 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    public AuthUser getCurrentUser(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        return authUserRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("username not found"));
 
+    }
 @Bean
     public HandlerMappingIntrospector mvcHandlerMappingIntrospector() {
         return new HandlerMappingIntrospector();

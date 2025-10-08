@@ -18,10 +18,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AuthUser user = authUserRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
-
+        System.out.println("Loaded user: " + user);
         return User.builder()
                 .username(user.getUsername())
-                .password(user.getPassword()) // must be already encoded!
+                .password(user.getPassword())
                 .roles(user.getRole().name())
                 .build();
     }
