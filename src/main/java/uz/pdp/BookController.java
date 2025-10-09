@@ -1,8 +1,11 @@
 package uz.pdp;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import uz.BookNotFoundException;
@@ -49,22 +52,26 @@ public class BookController {
     @PostMapping("/edit")
     public String editPage(@ModelAttribute Book book) {
         BOOKS.removeIf(o -> o.getId().equals(book.getId()));
-        BOOKS.add(book.validate());
+        BOOKS.add(book);
         return "redirect:/book";
     }
 
     @GetMapping("/add")
     public ModelAndView addPage(Model model) {
-        return new ModelAndView("add");
+        ModelAndView mav = new ModelAndView("add");
+        mav.addObject("dto", new Book());
+        return mav;
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute Book book) {
-
-        BOOKS.add(book.validate());
+    public String add(@Valid @ModelAttribute(name = "dto") Book book, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("book", book);
+            return "add";
+        }
+        BOOKS.add(book);
         return "redirect:/book";
     }
-
 
 
 }
