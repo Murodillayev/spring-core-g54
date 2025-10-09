@@ -18,12 +18,17 @@ import java.util.List;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final AuthUserRepository repository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         AuthUser authUser = repository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("User not found with username: " + username)
         );
+
+
+        // authUser map to userdetails
+
 
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         SimpleGrantedAuthority role = new SimpleGrantedAuthority(authUser.getRole());

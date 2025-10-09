@@ -13,7 +13,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
     private final CustomUserDetailsService userDetailsService;
@@ -29,8 +28,7 @@ public class SecurityConfiguration {
                 auth -> {
                     auth.requestMatchers(
                                     new AntPathRequestMatcher("/login"),
-                                    new AntPathRequestMatcher("/init")
-                            )
+                                    )
                             .permitAll()
 //                            .requestMatchers("/admin")
 //                            .hasRole("ADMIN")
@@ -39,7 +37,12 @@ public class SecurityConfiguration {
                 }
         );
         http.userDetailsService(userDetailsService);
-        http.formLogin(Customizer.withDefaults());
+        http.formLogin(formLoginConfigurer -> {
+            formLoginConfigurer.loginPage("/login");
+            formLoginConfigurer.usernameParameter("usr");
+            formLoginConfigurer.passwordParameter("psw");
+            formLoginConfigurer.successForwardUrl("/");
+        });
         return http.build();
     }
 
